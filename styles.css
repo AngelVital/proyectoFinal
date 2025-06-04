@@ -1,4 +1,8 @@
 /* General */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 body {
   background: linear-gradient(to right, #fef6e4, #fcd5ce);
   color: #333;
@@ -62,7 +66,7 @@ button:active {
 #login-form {
   background-color: #ffffff;
   border-radius: 16px;
-  padding: 20px;
+  padding: 30px; /* Más espacio interno */
   margin-bottom: 20px;
   box-shadow: 0 3px 8px rgba(0,0,0,0.1);
 }
@@ -70,9 +74,10 @@ button:active {
 #register-form input,
 #login-form input,
 #register-form select {
-  width: 100%;
+  width: 90%;           /* Más angosto que el contenedor */
+  display: block;       /* Para que el margin auto funcione */
+  margin: 10px auto;    /* Centrado horizontalmente y espacio vertical */
   padding: 10px 14px;
-  margin: 10px 0;
   border: 2px solid #d9d9d9;
   border-radius: 10px;
   font-size: 1rem;
@@ -272,28 +277,7 @@ button:active {
   pointer-events: none;
 }
 
-/* Responsive */
-@media (max-width: 480px) {
-  .planta {
-    width: 140px;
-  }
-
-  .une-fotos-imgs img {
-    width: 90px;
-    height: 70px;
-  }
-
-  .drop-nombre {
-    min-width: 110px;
-    font-size: 0.9rem;
-    padding: 10px;
-  }
-
-  button {
-    max-width: 100%;
-  }
-
-  .hidden {
+.hidden {
   display: none;
 }
 
@@ -316,6 +300,7 @@ button:active {
 .botones-aprender button:hover {
   background-color: #d2d2d2;
 }
+
 .filtro-municipios {
   margin-bottom: 1rem;
 }
@@ -343,6 +328,7 @@ button:active {
 .botones-municipios button:hover {
   background-color: #c0e4ff;
 }
+
 .toxicidad {
   font-weight: bold;
   padding: 6px;
@@ -360,7 +346,6 @@ button:active {
   background-color: #ccffd9;
   color: #006400;
 }
-
 
 #ayudaFija {
   position: fixed;
@@ -430,4 +415,24 @@ button:active {
   cursor: pointer;
 }
 
+/* Responsive */
+@media (max-width: 480px) {
+  .planta {
+    width: 140px;
+  }
+
+  .une-fotos-imgs img {
+    width: 90px;
+    height: 70px;
+  }
+
+  .drop-nombre {
+    min-width: 110px;
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+
+  button {
+    max-width: 100%;
+  }
 }
