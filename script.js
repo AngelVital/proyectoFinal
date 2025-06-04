@@ -609,26 +609,7 @@ function cerrarAyuda() {
 }
   */
 
-function mostrarPopupAyuda() {
-  document.getElementById('popupAyuda').classList.add('visible');
-}
 
-function cerrarPopupAyuda() {
-  document.getElementById('popupAyuda').classList.remove('visible');
-}
-
-// Opcional: cerrar si se hace clic fuera del popup
-document.addEventListener('click', function(event) {
-  const popup = document.getElementById('popupAyuda');
-  const ayudaBtn = document.getElementById('ayudaFija');
-  if (
-    popup.classList.contains('visible') &&
-    !popup.contains(event.target) &&
-    event.target !== ayudaBtn
-  ) {
-    popup.classList.remove('visible');
-  }
-});
 
 // Ejecutar al cargar
 window.addEventListener('DOMContentLoaded', verificarSesionActiva);

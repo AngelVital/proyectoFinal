@@ -24,6 +24,23 @@
   const db = firebase.database();
 </script>
 
+<div class="ayuda-flotante">
+  <button id="ayudaFija" onclick="mostrarPopupAyuda()">¿Necesitas ayuda?</button>
+  <div class="popup-ayuda" id="popupAyuda">
+    <button class="cerrar-ayuda" onclick="cerrarPopupAyuda()">&times;</button>
+    <h2>🆘 ¿Necesitas ayuda?</h2>
+      <p>Esta aplicación te enseña sobre las plantas de Baja California Sur.</p>
+      <ul>
+        <li>📚 <strong>Aprender</strong>: Mira fotos y aprende datos curiosos de cada planta.</li>
+        <li>🧠 <strong>Memorama</strong>: Encuentra las parejas de plantas iguales.</li>
+        <li>🔗 <strong>Une la foto</strong>: Arrastra la imagen hasta el nombre correcto.</li>
+        <li>🏆 <strong>Ganas puntos</strong> por jugar y aprender.</li>
+        <li>📢 Usa los botones para ver más información sobre las plantas.</li>
+        <li>🔊 Puedes activar o desactivar los sonidos.</li>
+      </ul>
+  </div>
+</div>
+
 <body>
   <div class="outer-frame">
     <div class="container">
@@ -135,10 +152,12 @@
     <button onclick="volverAlMenu()">⬅️ Volver al menú</button>
   </div>
 
-  <!-- Texto fijo de ayuda -->
+
+    <!-- Modal de Ayuda 
+  Texto fijo de ayuda
   <div id="ayudaFija" onclick="mostrarAyuda()">❓ ¿Necesitas ayuda?</div>
 
-  <!-- Modal de Ayuda 
+
   <div id="modalAyuda" class="hidden modal-ayuda">
     <div class="contenido-ayuda">
       <h2>🆘 ¿Necesitas ayuda?</h2>
@@ -155,23 +174,32 @@
     </div>
   </div>-->
 
-  <div class="ayuda-flotante">
-  <button id="ayudaFija" onclick="mostrarPopupAyuda()">¿Necesitas ayuda?</button>
-  <div class="popup-ayuda" id="popupAyuda">
-    <button class="cerrar-ayuda" onclick="cerrarPopupAyuda()">&times;</button>
-    <h2>🆘 ¿Necesitas ayuda?</h2>
-      <p>Esta aplicación te enseña sobre las plantas de Baja California Sur.</p>
-      <ul>
-        <li>📚 <strong>Aprender</strong>: Mira fotos y aprende datos curiosos de cada planta.</li>
-        <li>🧠 <strong>Memorama</strong>: Encuentra las parejas de plantas iguales.</li>
-        <li>🔗 <strong>Une la foto</strong>: Arrastra la imagen hasta el nombre correcto.</li>
-        <li>🏆 <strong>Ganas puntos</strong> por jugar y aprender.</li>
-        <li>📢 Usa los botones para ver más información sobre las plantas.</li>
-        <li>🔊 Puedes activar o desactivar los sonidos.</li>
-      </ul>
-  </div>
-</div>
+  
 
   <script src="script.js"></script>
+  <script>
+  const ayudaBtn = document.getElementById('ayudaFija');
+  const popupAyuda = document.getElementById('popupAyuda');
+  const cerrarBtn = document.querySelector('.cerrar-ayuda');
+
+  ayudaBtn.addEventListener('click', function() {
+    popupAyuda.classList.add('visible');
+  });
+
+  cerrarBtn.addEventListener('click', function() {
+    popupAyuda.classList.remove('visible');
+  });
+
+  // Opcional: cerrar el popup si se hace clic fuera de él
+  document.addEventListener('click', function(event) {
+    if (
+      popupAyuda.classList.contains('visible') &&
+      !popupAyuda.contains(event.target) &&
+      event.target !== ayudaBtn
+    ) {
+      popupAyuda.classList.remove('visible');
+    }
+  });
+</script>
 </body>
 </html>
