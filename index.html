@@ -79,7 +79,6 @@
       <p id="intentosRestantes" class="hidden">Intentos restantes: <span id="contadorIntentos"></span></p>
 
       <!-- Secciones dinámicas -->
-      <div id="contenidoAprender" class="hidden"></div>
       <div id="contenidoJuego" class="hidden"></div>
       <div id="instruccionesJuego" class="hidden"></div>
     </div>
@@ -94,10 +93,68 @@
       <canvas id="confetiCanvas"></canvas>
     </div>
   </div>
+ 
+  <!-- Sección "Aprender" -->
+  <div id="contenidoAprender" class="hidden">
+    <h2>🌸 Conoce la flora de Baja California Sur</h2>
+    <p>Explora algunas de las especies más representativas de nuestra región.</p>
 
-  
+    <!-- Botones de campos adicionales: inicialmente ocultos -->
+    <div id="botonesAprender" class="botones-aprender hidden">
+      <button onclick="toggleCampo('usos')">Usos</button>
+      <button onclick="toggleCampo('faunaAsociada')">Fauna asociada</button>
+      <button onclick="toggleCampo('ecosistema')">Ecosistema</button>
+      <button onclick="toggleCampo('conservacion')">Conservación</button>
+      <button onclick="toggleCampo('curiosidad')">Dato curioso</button>
+
+      <!-- Añadido -->
+      <div id="botonesToxicidad" class="botones-aprender">
+        <button onclick="filtrarToxicas(true)">🌿 Tóxicas</button>
+        <button onclick="filtrarToxicas(false)">🌱 No tóxicas</button>
+        <button onclick="filtrarToxicas('todas')">Mostrar todas</button>
+      </div>
+    </div>
+
+    <!-- Botón de filtro por municipio: inicialmente oculto -->
+    <div id="filtroMunicipios" class="filtro-municipios hidden">
+      <button onclick="toggleMunicipios()">📍 Municipios</button>
+      <div id="botonesMunicipios" class="botones-municipios hidden">
+        <button onclick="filtrarPorMunicipio('La Paz')">La Paz</button>
+        <button onclick="filtrarPorMunicipio('Comondú')">Comondú</button>
+        <button onclick="filtrarPorMunicipio('Mulegé')">Mulegé</button>
+        <button onclick="filtrarPorMunicipio('Loreto')">Loreto</button>
+        <button onclick="filtrarPorMunicipio('Los Cabos')">Los Cabos</button>
+        <button onclick="filtrarPorMunicipio('todos')">Mostrar todos</button>
+      </div>
+    </div>
+
+    <!-- Galería de flores -->
+    <div class="galeria-flores" id="galeriaFlores"></div>
+
+    <!-- Botón para regresar al menú -->
+    <button onclick="volverAlMenu()">⬅️ Volver al menú</button>
+  </div>
+
+  <!-- Texto fijo de ayuda -->
+  <div id="ayudaFija" onclick="mostrarAyuda()">❓ ¿Necesitas ayuda?</div>
+
+  <!-- Modal de Ayuda -->
+  <div id="modalAyuda" class="hidden modal-ayuda">
+    <div class="contenido-ayuda">
+      <h2>🆘 ¿Necesitas ayuda?</h2>
+      <p>Esta aplicación te enseña sobre las plantas de Baja California Sur.</p>
+      <ul>
+        <li>📚 <strong>Aprender</strong>: Mira fotos y aprende datos curiosos de cada planta.</li>
+        <li>🧠 <strong>Memorama</strong>: Encuentra las parejas de plantas iguales.</li>
+        <li>🔗 <strong>Une la foto</strong>: Arrastra la imagen hasta el nombre correcto.</li>
+        <li>🏆 <strong>Ganas puntos</strong> por jugar y aprender.</li>
+        <li>📢 Usa los botones para ver más información sobre las plantas.</li>
+        <li>🔊 Puedes activar o desactivar los sonidos.</li>
+      </ul>
+      <button onclick="cerrarAyuda()">Cerrar</button>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>
 </html>
-
