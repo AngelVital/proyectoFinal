@@ -609,7 +609,28 @@ function cerrarAyuda() {
 }
   */
 
+const ayudaBtn = document.getElementById('ayudaFija');
+  const popupAyuda = document.getElementById('popupAyuda');
+  const cerrarBtn = document.querySelector('.cerrar-ayuda');
 
+  ayudaBtn.addEventListener('click', function() {
+    popupAyuda.classList.add('visible');
+  });
+
+  cerrarBtn.addEventListener('click', function() {
+    popupAyuda.classList.remove('visible');
+  });
+
+  // Opcional: cerrar el popup si se hace clic fuera de él
+  document.addEventListener('click', function(event) {
+    if (
+      popupAyuda.classList.contains('visible') &&
+      !popupAyuda.contains(event.target) &&
+      event.target !== ayudaBtn
+    ) {
+      popupAyuda.classList.remove('visible');
+    }
+  });
 
 // Ejecutar al cargar
 window.addEventListener('DOMContentLoaded', verificarSesionActiva);
