@@ -1,0 +1,297 @@
+/* General */
+body {
+  background: linear-gradient(to right, #fef6e4, #fcd5ce);
+  color: #333;
+  padding: 20px;
+  min-height: 100vh;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Contenedores */
+.container {
+  width: 100%;
+  max-width: 900px;
+}
+
+/* Botones generales */
+button {
+  background-color: #ffb703;
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  margin: 8px 0;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+  background-color: #fb8500;
+  transform: scale(1.05);
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+/* Auth Section */
+#auth-section {
+  background: linear-gradient(135deg, #fefae0, #faedcd);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  width: 100%;
+  text-align: center;
+}
+
+#auth-section h2 {
+  font-size: 2rem;
+  color: #588157;
+}
+
+#register-form,
+#login-form {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+
+#register-form input,
+#login-form input,
+#register-form select {
+  width: 100%;
+  padding: 10px 14px;
+  margin: 10px 0;
+  border: 2px solid #d9d9d9;
+  border-radius: 10px;
+  font-size: 1rem;
+  outline: none;
+}
+
+#register-form select {
+  background-color: #f4f4f4;
+  cursor: pointer;
+}
+
+/* Menú */
+#menu {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  margin-top: 20px;
+  width: 100%;
+}
+
+/* Galería */
+.galeria-flores {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.planta {
+  width: 180px;
+  background: #fff5e1;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  padding: 10px;
+  text-align: center;
+}
+
+.planta img {
+  max-width: 100%;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+/* Memorama */
+.memorama-grid {
+  display: grid;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  max-width: 600px;
+}
+
+.carta {
+  width: 80px;
+  height: 100px;
+  perspective: 800px;
+  cursor: pointer;
+  position: relative;
+}
+
+.cara-contenedor {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  border-radius: 10px;
+  background: white;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.carta.volteada .cara-contenedor {
+  transform: rotateY(180deg);
+}
+
+.cara {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cara.frontal {
+  background: #ffffff;
+  transform: rotateY(180deg);
+}
+
+.cara.frontal img {
+  max-width: 90%;
+  max-height: 85%;
+  border-radius: 6px;
+}
+
+.cara.reverso {
+  background: #90e0ef;
+  color: white;
+  font-size: 2rem;
+  border: 2px solid #0077b6;
+}
+
+/* Une la foto */
+.une-fotos-imgs,
+.une-fotos-nombres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.une-fotos-imgs img {
+  width: 110px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+  cursor: grab;
+  transition: opacity 0.3s;
+}
+
+.drop-nombre {
+  background-color: #caf0f8;
+  border-radius: 10px;
+  padding: 16px 20px;
+  font-weight: bold;
+  border: 3px dashed #00b4d8;
+  min-width: 160px;
+  text-align: center;
+}
+
+/* Contador intentos */
+#intentosRestantes {
+  font-size: 1.1rem;
+  color: #333;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Pantalla de felicitación */
+#felicitacion {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #fefae0ee;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 9999;
+  text-align: center;
+  animation: fadeIn 0.5s ease-in;
+}
+
+.felicitacion-contenido {
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 2;
+}
+
+#felicitacion h2 {
+  font-size: 2.2rem;
+  color: #588157;
+}
+
+#felicitacion p {
+  font-size: 1.2rem;
+  margin: 10px 0 20px;
+}
+
+#felicitacion button {
+  background-color: #80b918;
+  color: white;
+  padding: 12px 20px;
+  font-size: 1.1rem;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+#confetiCanvas {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .planta {
+    width: 140px;
+  }
+
+  .une-fotos-imgs img {
+    width: 90px;
+    height: 70px;
+  }
+
+  .drop-nombre {
+    min-width: 110px;
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+
+  button {
+    max-width: 100%;
+  }
+
+  
+}

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aprende Jugando - Flora del Estado</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="outer-frame">
+    <div class="container">
+      <h1>🌿 Aprende Jugando - Flora de Tu Estado</h1>
+
+      <!-- Registro e Inicio de Sesión -->
+      <div id="auth-section">
+        <h2>🌼 Bienvenido</h2>
+        <div id="register-form">
+          <h3>Registro</h3>
+          <input type="text" id="reg-nombre" placeholder="Nombre" required />
+          <input type="password" id="reg-password" placeholder="Contraseña" required />
+          <input type="number" id="reg-edad" placeholder="Edad" required min="6" max="12" />
+          <select id="reg-grado">
+            <option value="">Grado escolar</option>
+            <option value="1">1° primaria</option>
+            <option value="2">2° primaria</option>
+            <option value="3">3° primaria</option>
+            <option value="4">4° primaria</option>
+            <option value="5">5° primaria</option>
+            <option value="6">6° primaria</option>
+          </select>
+          <button onclick="registrar()">Registrarse</button>
+        </div>
+
+        <hr />
+
+        <div id="login-form">
+          <h3>Iniciar sesión</h3>
+          <input type="text" id="login-nombre" placeholder="Nombre" required />
+          <input type="password" id="login-password" placeholder="Contraseña" required />
+          <button onclick="iniciarSesion()">Iniciar sesión</button>
+        </div>
+      </div>
+
+      <!-- Menú principal -->
+      <div id="menu" class="hidden">
+        <p>👋 Bienvenido, <span id="nombreUsuario"></span></p>
+        <p>Primero aprenderemos sobre las plantas de Baja California Sur y después fortaleceremos nuestro conocimiento con juegos.</p>
+
+        <button onclick="mostrarAprender()">📚 Aprender</button>
+
+        <h3>Juegos</h3>
+        <button onclick="iniciarJuego('memorama')">🧠 Memorama (Flora)</button>
+        <button onclick="iniciarJuego('uneFotos')">🔗 Une la foto con su nombre</button>
+
+        <p>🏆 Puntos: <span id="puntos">0</span></p>
+        <p><button id="btnSonido" onclick="toggleSonido()">🔊 Sonidos: Activados</button></p>
+        <p><button onclick="cerrarSesion()">🚪 Cerrar sesión</button></p>
+      </div>
+
+      <!-- Contador de intentos -->
+      <p id="intentosRestantes" class="hidden">Intentos restantes: <span id="contadorIntentos"></span></p>
+
+      <!-- Secciones dinámicas -->
+      <div id="contenidoAprender" class="hidden"></div>
+      <div id="contenidoJuego" class="hidden"></div>
+      <div id="instruccionesJuego" class="hidden"></div>
+    </div>
+  </div>
+
+  <!-- Pantalla de felicitación -->
+  <div id="felicitacion" class="hidden">
+    <div class="felicitacion-contenido">
+      <h2>🎉 ¡Felicidades!</h2>
+      <p>Has completado todos los niveles</p>
+      <button onclick="cerrarFelicitacion()">🏠 Volver al menú</button>
+      <canvas id="confetiCanvas"></canvas>
+    </div>
+  </div>
+
+  
+
+  <script src="script.js"></script>
+</body>
+</html>
+

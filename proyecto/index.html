@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aprende Jugando - Flora del Estado</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>🌿 Aprende Jugando - Flora de Tu Estado</h1>
+    
+    <div class="user-section">
+      <input type="text" id="username" placeholder="Ingresa tu nombre" />
+      <button onclick="iniciar()">Comenzar</button>
+    </div>
+
+    <div id="menu" class="hidden">
+      <p>👋 Bienvenido, <span id="nombreUsuario"></span></p>
+      <button onclick="mostrarAprender()">📚 Aprender</button>
+      <button onclick="jugarNivel()">🎮 Jugar Nivel</button>
+      <p>🏆 Puntos: <span id="puntos">0</span></p>
+    </div>
+
+    <div id="contenidoAprender" class="hidden"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
