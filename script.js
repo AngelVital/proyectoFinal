@@ -74,17 +74,18 @@ function registrar() {
     return;
   }
 
+  const claveUsuario = nombre.toLowerCase().replace(/\s+/g, '');
   const nuevoUsuario = { nombre, password, edad, grado, puntos: 0, nivel: 1 };
-  firebase.database().ref("usuarios/" + nombre).set(nuevoUsuario);
+  firebase.database().ref("usuarios/" + claveUsuario).set(nuevoUsuario);
   alert("✅ Registro exitoso. Ahora puedes iniciar sesión.");
 }
-
 
 // Login
 function iniciarSesion() {
   const nombre = document.getElementById("login-nombre").value.trim();
   const password = document.getElementById("login-password").value.trim();
-  firebase.database().ref("usuarios/" + nombre).once("value")
+  const claveUsuario = nombre.toLowerCase().replace(/\s+/g, '');
+  firebase.database().ref("usuarios/" + claveUsuario).once("value")
     .then(snapshot => {
       if (!snapshot.exists()) {
         alert("⚠️ Usuario no registrado.");
@@ -97,7 +98,7 @@ function iniciarSesion() {
       }
       usuario = usuarioGuardado;
       nivelActual = usuario.nivel || 1;
-      localStorage.setItem('usuarioActivo', nombre); // Solo para recordar la sesión
+      localStorage.setItem('usuarioActivo', claveUsuario); // Guarda la clave normalizada
       document.getElementById("nombreUsuario").textContent = usuario.nombre;
       document.getElementById("auth-section").classList.add("hidden");
       document.getElementById("menu").classList.remove("hidden");
@@ -105,18 +106,11 @@ function iniciarSesion() {
     });
 }
 
-function actualizarUsuarioEnFirebase() {
-  firebase.database().ref("usuarios/" + usuario.nombre).update({
-    puntos: usuario.puntos,
-    nivel: usuario.nivel
-  });
-}
-
 // Verifica sesión activa
 function verificarSesionActiva() {
-  const nombreActivo = localStorage.getItem('usuarioActivo');
-  if (!nombreActivo) return;
-  firebase.database().ref("usuarios/" + nombreActivo).once("value")
+  const claveUsuario = localStorage.getItem('usuarioActivo');
+  if (!claveUsuario) return;
+  firebase.database().ref("usuarios/" + claveUsuario).once("value")
     .then(snapshot => {
       if (!snapshot.exists()) return;
       usuario = snapshot.val();
