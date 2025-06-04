@@ -1,8 +1,4 @@
 /* General */
-*, *::before, *::after {
-  box-sizing: border-box;
-}
-
 body {
   background: linear-gradient(to right, #fef6e4, #fcd5ce);
   color: #333;
@@ -66,17 +62,18 @@ button:active {
 #login-form {
   background-color: #ffffff;
   border-radius: 16px;
-  padding: 30px; /* Más espacio interno */
+  padding: 20px;
   margin-bottom: 20px;
   box-shadow: 0 3px 8px rgba(0,0,0,0.1);
 }
 
+/* SOLO CAMBIO EN ESTA PARTE */
 #register-form input,
 #login-form input,
 #register-form select {
-  width: 90%;           /* Más angosto que el contenedor */
-  display: block;       /* Para que el margin auto funcione */
-  margin: 10px auto;    /* Centrado horizontalmente y espacio vertical */
+  width: 90%;
+  display: block;
+  margin: 10px auto;
   padding: 10px 14px;
   border: 2px solid #d9d9d9;
   border-radius: 10px;
@@ -277,144 +274,6 @@ button:active {
   pointer-events: none;
 }
 
-.hidden {
-  display: none;
-}
-
-.botones-aprender {
-  margin-bottom: 1rem;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.botones-aprender button {
-  padding: 0.4rem 1rem;
-  background-color: #e0e0e0;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.botones-aprender button:hover {
-  background-color: #d2d2d2;
-}
-
-.filtro-municipios {
-  margin-bottom: 1rem;
-}
-
-.botones-municipios {
-  margin-top: 0.5rem;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.botones-municipios.hidden {
-  display: none;
-}
-
-.botones-municipios button {
-  padding: 0.4rem 1rem;
-  background-color: #dcefff;
-  border: 1px solid #a2cbe9;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.botones-municipios button:hover {
-  background-color: #c0e4ff;
-}
-
-.toxicidad {
-  font-weight: bold;
-  padding: 6px;
-  border-radius: 6px;
-  margin: 8px 0;
-  display: inline-block;
-}
-
-.toxica {
-  background-color: #ffcccc;
-  color: #a30000;
-}
-
-.no-toxica {
-  background-color: #ccffd9;
-  color: #006400;
-}
-
-#ayudaFija {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  font-size: 1rem;
-  color: #1d3557;
-  font-weight: bold;
-  cursor: pointer;
-  z-index: 1000;
-  text-decoration: underline;
-  background: transparent;
-}
-
-#ayudaFija:hover {
-  color: #e76f51;
-}
-
-.modal-ayuda {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0,0,0,0.4);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 10000;
-}
-
-.contenido-ayuda {
-  background-color: #fffbe6;
-  padding: 30px;
-  border-radius: 20px;
-  width: 90%;
-  max-width: 500px;
-  text-align: left;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
-  font-size: 1rem;
-  line-height: 1.6;
-  color: #333;
-}
-
-.contenido-ayuda h2 {
-  font-size: 1.8rem;
-  margin-bottom: 15px;
-  color: #588157;
-}
-
-.contenido-ayuda ul {
-  list-style: none;
-  padding-left: 0;
-}
-
-.contenido-ayuda li {
-  margin-bottom: 10px;
-}
-
-.contenido-ayuda button {
-  margin-top: 20px;
-  background-color: #588157;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 10px;
-  border: none;
-  font-weight: bold;
-  cursor: pointer;
-}
-
 /* Responsive */
 @media (max-width: 480px) {
   .planta {
@@ -434,5 +293,141 @@ button:active {
 
   button {
     max-width: 100%;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .botones-aprender {
+    margin-bottom: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .botones-aprender button {
+    padding: 0.4rem 1rem;
+    background-color: #e0e0e0;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  .botones-aprender button:hover {
+    background-color: #d2d2d2;
+  }
+  .filtro-municipios {
+    margin-bottom: 1rem;
+  }
+
+  .botones-municipios {
+    margin-top: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .botones-municipios.hidden {
+    display: none;
+  }
+
+  .botones-municipios button {
+    padding: 0.4rem 1rem;
+    background-color: #dcefff;
+    border: 1px solid #a2cbe9;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  .botones-municipios button:hover {
+    background-color: #c0e4ff;
+  }
+  .toxicidad {
+    font-weight: bold;
+    padding: 6px;
+    border-radius: 6px;
+    margin: 8px 0;
+    display: inline-block;
+  }
+
+  .toxica {
+    background-color: #ffcccc;
+    color: #a30000;
+  }
+
+  .no-toxica {
+    background-color: #ccffd9;
+    color: #006400;
+  }
+
+  #ayudaFija {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-size: 1rem;
+    color: #1d3557;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 1000;
+    text-decoration: underline;
+    background: transparent;
+  }
+
+  #ayudaFija:hover {
+    color: #e76f51;
+  }
+
+  .modal-ayuda {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+  }
+
+  .contenido-ayuda {
+    background-color: #fffbe6;
+    padding: 30px;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 500px;
+    text-align: left;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #333;
+  }
+
+  .contenido-ayuda h2 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    color: #588157;
+  }
+
+  .contenido-ayuda ul {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .contenido-ayuda li {
+    margin-bottom: 10px;
+  }
+
+  .contenido-ayuda button {
+    margin-top: 20px;
+    background-color: #588157;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
   }
 }
