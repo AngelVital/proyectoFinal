@@ -134,19 +134,16 @@ function verificarSesionActiva() {
 function cerrarSesion() {
   const confirmar = confirm("¿Estás seguro que deseas cerrar sesión?");
   if (!confirmar) return;
-
   localStorage.removeItem('usuarioActivo');
-
-  firebase.auth().signOut()
-    .then(() => {
-      // Cierre de sesión exitoso
-      location.reload();
-    })
-    .catch((error) => {
-      // Ocurrió un error al cerrar sesión
-      console.error("Error al cerrar sesión en Firebase:", error);
-      location.reload(); // Recargar la página de todos modos
-    });
+  document.getElementById("auth-section").classList.remove("hidden");
+  document.getElementById("menu").classList.add("hidden");
+  document.getElementById("nombreUsuario").textContent = ""; 
+  document.getElementById("puntos").textContent = "0";
+  usuario = {
+    nombre: "",
+    puntos: 0,
+    nivel: 1
+  };
 }
 
 // Volver al menú
