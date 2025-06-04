@@ -8,6 +8,8 @@ let nivelActual = 1;
 let intentosRestantes = null;
 let aciertos = 0;
 
+const auth = firebase.auth();
+
 const flores = [
   { nombre: "Cardón", municipio: "Mulegé, Loreto", cientifico: "Pachycereus pringlei" },
   { nombre: "Choya", municipio: "Mulegé, Loreto", cientifico: "Cylindropuntia spp" },
@@ -85,64 +87,47 @@ function iniciarSesion() {
   const nombre = document.getElementById("login-nombre").value.trim();
   const password = document.getElementById("login-password").value.trim();
   firebase.database().ref("usuarios/" + nombre).once("value")
-  .then(snapshot => {
-    if (!snapshot.exists()) {
-      alert("⚠️ Usuario no registrado.");
-      return;
-    }
+    .then(snapshot => {
+      if (!snapshot.exists()) {
+        alert("⚠️ Usuario no registrado.");
+        return;
+      }
+      const usuarioGuardado = snapshot.val();
+      if (usuarioGuardado.password !== password) {
+        alert("❌ Contraseña incorrecta.");
+        return;
+      }
+      usuario = usuarioGuardado;
+      nivelActual = usuario.nivel || 1;
+      localStorage.setItem('usuarioActivo', nombre); // Solo para recordar la sesión
+      document.getElementById("nombreUsuario").textContent = usuario.nombre;
+      document.getElementById("auth-section").classList.add("hidden");
+      document.getElementById("menu").classList.remove("hidden");
+      document.getElementById("puntos").textContent = usuario.puntos;
+    });
+}
 
-    const usuarioGuardado = snapshot.val();
-    if (usuarioGuardado.password !== password) {
-      alert("❌ Contraseña incorrecta.");
-      return;
-    }
-
-    usuario = usuarioGuardado;
-    nivelActual = usuario.nivel || 1;
-
-    document.getElementById("nombreUsuario").textContent = usuario.nombre;
-    document.getElementById("auth-section").classList.add("hidden");
-    document.getElementById("menu").classList.remove("hidden");
-    document.getElementById("puntos").textContent = usuario.puntos;
+function actualizarUsuarioEnFirebase() {
+  firebase.database().ref("usuarios/" + usuario.nombre).update({
+    puntos: usuario.puntos,
+    nivel: usuario.nivel
   });
-
-
-  if (!datos) {
-    alert("⚠️ Usuario no registrado.");
-    return;
-  }
-
-  const usuarioGuardado = JSON.parse(datos);
-  if (usuarioGuardado.password !== password) {
-    alert("❌ Contraseña incorrecta.");
-    return;
-  }
-
-  usuario = usuarioGuardado;
-  nivelActual = usuario.nivel || 1;
-  localStorage.setItem('usuarioActivo', nombre);
-
-  document.getElementById("nombreUsuario").textContent = usuario.nombre;
-  document.getElementById("auth-section").classList.add("hidden");
-  document.getElementById("menu").classList.remove("hidden");
-  document.getElementById("puntos").textContent = usuario.puntos;
 }
 
 // Verifica sesión activa
 function verificarSesionActiva() {
   const nombreActivo = localStorage.getItem('usuarioActivo');
   if (!nombreActivo) return;
-
-  const datos = localStorage.getItem(`usuario_${nombreActivo}`);
-  if (!datos) return;
-
-  usuario = JSON.parse(datos);
-  nivelActual = usuario.nivel || 1;
-
-  document.getElementById("nombreUsuario").textContent = usuario.nombre;
-  document.getElementById("auth-section").classList.add("hidden");
-  document.getElementById("menu").classList.remove("hidden");
-  document.getElementById("puntos").textContent = usuario.puntos;
+  firebase.database().ref("usuarios/" + nombreActivo).once("value")
+    .then(snapshot => {
+      if (!snapshot.exists()) return;
+      usuario = snapshot.val();
+      nivelActual = usuario.nivel || 1;
+      document.getElementById("nombreUsuario").textContent = usuario.nombre;
+      document.getElementById("auth-section").classList.add("hidden");
+      document.getElementById("menu").classList.remove("hidden");
+      document.getElementById("puntos").textContent = usuario.puntos;
+    });
 }
 
 // Cerrar sesión
@@ -151,7 +136,17 @@ function cerrarSesion() {
   if (!confirmar) return;
 
   localStorage.removeItem('usuarioActivo');
-  location.reload();
+
+  firebase.auth().signOut()
+    .then(() => {
+      // Cierre de sesión exitoso
+      location.reload();
+    })
+    .catch((error) => {
+      // Ocurrió un error al cerrar sesión
+      console.error("Error al cerrar sesión en Firebase:", error);
+      location.reload(); // Recargar la página de todos modos
+    });
 }
 
 // Volver al menú
@@ -303,10 +298,12 @@ function crearMemorama() {
               reproducirSonido("win");
               alert("🎉 ¡Nivel completado!");
               usuario.puntos += 10;
+              actualizarUsuarioEnFirebase();
 
               if (nivelActual < 3) {
                 nivelActual++;
                 usuario.nivel = nivelActual;
+                actualizarUsuarioEnFirebase();
                 localStorage.setItem(`usuario_${usuario.nombre}`, JSON.stringify(usuario));
                 document.getElementById("puntos").textContent = usuario.puntos;
                 iniciarMemorama(); // avanzar a siguiente nivel
@@ -445,10 +442,12 @@ function iniciarUneFotos() {
             reproducirSonido("win");
             alert("🎉 ¡Muy bien! Has completado el nivel.");
             usuario.puntos += 5;
+            actualizarUsuarioEnFirebase();
 
             if (nivelActual < 3) {
               nivelActual++;
               usuario.nivel = nivelActual;
+              actualizarUsuarioEnFirebase();
               localStorage.setItem(`usuario_${usuario.nombre}`, JSON.stringify(usuario));
               document.getElementById("puntos").textContent = usuario.puntos;
               iniciarUneFotos(); // avanzar al siguiente nivel
