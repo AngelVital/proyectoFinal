@@ -354,6 +354,7 @@ button:active {
   display: inline-block;
 }
 
+/*
 #usuariosBtn {
   font-size: 1rem;
   color: #1d3557;
@@ -373,7 +374,7 @@ button:active {
   border-color: #ffb703;
   color: #ffb703;
 }
-
+*/
 .popup-usuarios {
   display: none;
   position: absolute;
