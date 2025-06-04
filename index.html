@@ -6,6 +6,23 @@
   <title>Aprende Jugando - Flora del Estado</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "TU_API_KEY",
+    authDomain: "TU_DOMINIO.firebaseapp.com",
+    databaseURL: "https://TU_DOMINIO.firebaseio.com",
+    projectId: "TU_PROYECTO_ID",
+    storageBucket: "TU_BUCKET.appspot.com",
+    messagingSenderId: "TU_SENDER_ID",
+    appId: "TU_APP_ID"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+</script>
+
 <body>
   <div class="outer-frame">
     <div class="container">

@@ -75,7 +75,7 @@ function registrar() {
   }
 
   const nuevoUsuario = { nombre, password, edad, grado, puntos: 0, nivel: 1 };
-  localStorage.setItem(`usuario_${nombre}`, JSON.stringify(nuevoUsuario));
+  firebase.database().ref("usuarios/" + nombre).set(nuevoUsuario);
   alert("✅ Registro exitoso. Ahora puedes iniciar sesión.");
 }
 
@@ -84,7 +84,28 @@ function registrar() {
 function iniciarSesion() {
   const nombre = document.getElementById("login-nombre").value.trim();
   const password = document.getElementById("login-password").value.trim();
-  const datos = localStorage.getItem(`usuario_${nombre}`);
+  firebase.database().ref("usuarios/" + nombre).once("value")
+  .then(snapshot => {
+    if (!snapshot.exists()) {
+      alert("⚠️ Usuario no registrado.");
+      return;
+    }
+
+    const usuarioGuardado = snapshot.val();
+    if (usuarioGuardado.password !== password) {
+      alert("❌ Contraseña incorrecta.");
+      return;
+    }
+
+    usuario = usuarioGuardado;
+    nivelActual = usuario.nivel || 1;
+
+    document.getElementById("nombreUsuario").textContent = usuario.nombre;
+    document.getElementById("auth-section").classList.add("hidden");
+    document.getElementById("menu").classList.remove("hidden");
+    document.getElementById("puntos").textContent = usuario.puntos;
+  });
+
 
   if (!datos) {
     alert("⚠️ Usuario no registrado.");
