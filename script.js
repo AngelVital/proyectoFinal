@@ -143,6 +143,14 @@ function volverAlMenu() {
   document.getElementById("intentosRestantes").classList.add("hidden");
   intentosRestantes = null;
 }
+
+function actualizarUsuarioEnFirebase() {
+  firebase.database().ref("usuarios/" + usuario.nombre.toLowerCase().replace(/\s+/g, '')).update({
+    puntos: usuario.puntos,
+    nivel: usuario.nivel
+  });
+}
+
 // Mostrar sección aprender
 function mostrarAprender() {
   const cont = document.getElementById("contenidoAprender");
