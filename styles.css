@@ -360,7 +360,7 @@ button:active {
   font-weight: bold;
   cursor: pointer;
   background: #e0f7fa;
-  border: 2px solid #00b4d8;
+  border: 2px solid #ffb703;
   border-radius: 10px;
   padding: 10px 18px;
   margin-left: 10px;
@@ -370,8 +370,8 @@ button:active {
 
 #usuariosBtn:hover {
   background: #caf0f8;
-  border-color: #0077b6;
-  color: #0077b6;
+  border-color: #ffb703;
+  color: #ffb703;
 }
 
 .popup-usuarios {
@@ -383,7 +383,7 @@ button:active {
   max-width: 340px;
   background: #e0f7fa;
   color: #333;
-  border: 2px solid #00b4d8;
+  border: 2px solid #ffb703;
   border-radius: 14px;
   box-shadow: 0 4px 16px rgba(0,180,216,0.18);
   padding: 18px 20px 14px 20px;
@@ -404,7 +404,7 @@ button:active {
   background: none;
   border: none;
   font-size: 1.4rem;
-  color: #00b4d8;
+  color: #ffb703;
   cursor: pointer;
   font-weight: bold;
   transition: color 0.2s;
@@ -427,7 +427,7 @@ button:active {
 
 .popup-usuarios th {
   background: #caf0f8;
-  color: #0077b6;
+  color: #ffb703;
   font-weight: bold;
 }
 
