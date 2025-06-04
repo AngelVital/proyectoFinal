@@ -138,7 +138,7 @@
   <!-- Texto fijo de ayuda -->
   <div id="ayudaFija" onclick="mostrarAyuda()">❓ ¿Necesitas ayuda?</div>
 
-  <!-- Modal de Ayuda -->
+  <!-- Modal de Ayuda 
   <div id="modalAyuda" class="hidden modal-ayuda">
     <div class="contenido-ayuda">
       <h2>🆘 ¿Necesitas ayuda?</h2>
@@ -153,7 +153,24 @@
       </ul>
       <button onclick="cerrarAyuda()">Cerrar</button>
     </div>
+  </div>-->
+
+  <div class="ayuda-flotante">
+  <button id="ayudaFija" onclick="mostrarPopupAyuda()">¿Necesitas ayuda?</button>
+  <div class="popup-ayuda" id="popupAyuda">
+    <button class="cerrar-ayuda" onclick="cerrarPopupAyuda()">&times;</button>
+    <h2>🆘 ¿Necesitas ayuda?</h2>
+      <p>Esta aplicación te enseña sobre las plantas de Baja California Sur.</p>
+      <ul>
+        <li>📚 <strong>Aprender</strong>: Mira fotos y aprende datos curiosos de cada planta.</li>
+        <li>🧠 <strong>Memorama</strong>: Encuentra las parejas de plantas iguales.</li>
+        <li>🔗 <strong>Une la foto</strong>: Arrastra la imagen hasta el nombre correcto.</li>
+        <li>🏆 <strong>Ganas puntos</strong> por jugar y aprender.</li>
+        <li>📢 Usa los botones para ver más información sobre las plantas.</li>
+        <li>🔊 Puedes activar o desactivar los sonidos.</li>
+      </ul>
   </div>
+</div>
 
   <script src="script.js"></script>
 </body>
