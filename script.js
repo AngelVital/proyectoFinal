@@ -8,8 +8,6 @@ let nivelActual = 1;
 let intentosRestantes = null;
 let aciertos = 0;
 
-const auth = firebase.auth();
-
 const flores = [
   { nombre: "Cardón", municipio: "Mulegé, Loreto", cientifico: "Pachycereus pringlei" },
   { nombre: "Choya", municipio: "Mulegé, Loreto", cientifico: "Cylindropuntia spp" },
@@ -134,16 +132,9 @@ function verificarSesionActiva() {
 function cerrarSesion() {
   const confirmar = confirm("¿Estás seguro que deseas cerrar sesión?");
   if (!confirmar) return;
+
   localStorage.removeItem('usuarioActivo');
-  document.getElementById("auth-section").classList.remove("hidden");
-  document.getElementById("menu").classList.add("hidden");
-  document.getElementById("nombreUsuario").textContent = ""; 
-  document.getElementById("puntos").textContent = "0";
-  usuario = {
-    nombre: "",
-    puntos: 0,
-    nivel: 1
-  };
+  location.reload();
 }
 
 // Volver al menú
