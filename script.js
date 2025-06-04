@@ -9,24 +9,24 @@ let intentosRestantes = null;
 let aciertos = 0;
 
 const flores = [
-  { nombre: "Cardón", municipio: "Mulegé, Loreto", cientifico: "Pachycereus pringlei" },
-  { nombre: "Choya", municipio: "Mulegé, Loreto", cientifico: "Cylindropuntia spp" },
-  { nombre: "Mezquite", municipio: "Mulegé", cientifico: "Prosopis glandulosa" },
-  { nombre: "Torote", municipio: "Mulegé", cientifico: "Bursera microphylla" },
-  { nombre: "Palo verde", municipio: "Mulegé", cientifico: "Parkinsonia florida" },
-  { nombre: "Pitaya agria", municipio: "Comondú", cientifico: "Stenocereus gummosus" },
-  { nombre: "Pitaya dulce", municipio: "Comondú", cientifico: "Stenocereus thurberi" },
-  { nombre: "Palo blanco", municipio: "Comondú, Los Cabos", cientifico: "Lysiloma candidum" },
-  { nombre: "Torote blanco", municipio: "Comondú", cientifico: "Bursera odorata" },
-  { nombre: "Chirinola", municipio: "Comondú", cientifico: "Stenocereus eruca" },
-  { nombre: "Mangle rojo", municipio: "La Paz, Loreto", cientifico: "Rhizophora mangle" },
-  { nombre: "Mangle blanco", municipio: "La Paz, Loreto", cientifico: "Laguncularia racemosa" },
-  { nombre: "Mangle negro", municipio: "La Paz", cientifico: "Avicennia germinans" },
-  { nombre: "Palo fierro", municipio: "La Paz", cientifico: "Olneya tesota" },
-  { nombre: "Biznaga de Evermann", municipio: "La Paz", cientifico: "Mammillaria evermanniana" },
-  { nombre: "Pino piñonero", municipio: "Los Cabos", cientifico: "Pinus cembroides subsp. lagunae" },
-  { nombre: "Madroño", municipio: "Los cabos", cientifico: "Arbutus spp" },
-  { nombre: "Encino", municipio: "Los cabos", cientifico: "Quercus spp" }
+  { nombre: "Cardón", municipio: "Mulegé, Loreto", cientifico: "Pachycereus pringlei", toxica: false, usos: "Sombra, frutos comestibles y reserva de agua para fauna.", faunaAsociada: "Murciélagos, aves e insectos.", ecosistema: "Desierto costero del Golfo de California.", conservacion: "Sin riesgo.", curiosidad: "Puede superar los 10 metros y vivir más de 200 años." },
+  { nombre: "Choya", municipio: "Mulegé, Loreto", cientifico: "Cylindropuntia spp", toxica: true, usos: "Ornamental, barreras vivas.", faunaAsociada: "Aves pequeñas que anidan entre sus espinas.", ecosistema: "Matorral xerófilo.", conservacion: "Sin riesgo.", curiosidad: "Sus espinas tienen púas microscópicas que se adhieren fácilmente." },
+  { nombre: "Mezquite", municipio: "Mulegé", cientifico: "Prosopis glandulosa", toxica: false, usos: "Madera, carbón, forraje y alimento (vainas).", faunaAsociada: "Aves, insectos, ganado.", ecosistema: "Matorral desértico.", conservacion: "Común.", curiosidad: "Sus semillas se usaban para hacer harina en tiempos prehispánicos." },
+  { nombre: "Torote", municipio: "Mulegé", cientifico: "Bursera microphylla", toxica: true, usos: "Madera para leña y resina con fines medicinales.", faunaAsociada: "Aves e insectos.", ecosistema: "Matorral y laderas secas.", conservacion: "Abundante.", curiosidad: "Su tronco retorcido y color rojizo lo hace fácilmente reconocible." },
+  { nombre: "Palo verde", municipio: "Mulegé", cientifico: "Parkinsonia florida", toxica: false, usos: "Ornamental, sombra, reforestación.", faunaAsociada: "Colibríes e insectos polinizadores.", ecosistema: "Desierto y arroyos secos.", conservacion: "Sin riesgo.", curiosidad: "Su tronco verde realiza fotosíntesis incluso sin hojas." },
+  { nombre: "Pitaya agria", municipio: "Comondú", cientifico: "Stenocereus gummosus", toxica: false, usos: "Fruto comestible en nieves, jugos y dulces.", faunaAsociada: "Murciélagos, aves e insectos.", ecosistema: "Matorral desértico.", conservacion: "Sin riesgo.", curiosidad: "El fruto tiene sabor ácido muy apreciado por comunidades locales." },
+  { nombre: "Pitaya dulce", municipio: "Comondú", cientifico: "Stenocereus thurberi", toxica: false, usos: "Fruto comestible, tradicionalmente recolectado por pueblos originarios.", faunaAsociada: "Murciélagos y abejas.", ecosistema: "Desierto de Sonora y Baja California Sur.", conservacion: "Sin riesgo.", curiosidad: "Florece de noche, atrayendo polinizadores nocturnos." },
+  { nombre: "Palo blanco", municipio: "Comondú, Los Cabos", cientifico: "Lysiloma candidum", toxica: false, usos: "Madera para carpintería y medicina tradicional.", faunaAsociada: "Aves e insectos.", ecosistema: "Bosque tropical seco.", conservacion: "Sin riesgo.", curiosidad: "Produce flores blancas en forma de pompones muy vistosas." },
+  { nombre: "Torote blanco", municipio: "Comondú", cientifico: "Bursera odorata", toxica: true, usos: "Producción de resina aromática y leña.", faunaAsociada: "Aves e insectos.", ecosistema: "Matorrales secos.", conservacion: "Común.", curiosidad: "La resina ha sido utilizada en rituales como incienso." },
+  { nombre: "Chirinola", municipio: "Comondú", cientifico: "Stenocereus eruca", toxica: false, usos: "Ornamental, potencial alimenticio.", faunaAsociada: "Insectos polinizadores.", ecosistema: "Zonas arenosas costeras.", conservacion: "Vulnerable por hábitat reducido.", curiosidad: "Crece horizontalmente y 'camina' por el suelo." },
+  { nombre: "Mangle rojo", municipio: "La Paz, Loreto", cientifico: "Rhizophora mangle", toxica: true, usos: "Protección costera, filtro natural de agua.", faunaAsociada: "Camarones, peces, aves costeras.", ecosistema: "Manglar.", conservacion: "Protegido por ley.", curiosidad: "Sus raíces aéreas ayudan a estabilizar el suelo." },
+  { nombre: "Mangle blanco", municipio: "La Paz, Loreto", cientifico: "Laguncularia racemosa", toxica: true, usos: "Protección de costas, medicina tradicional.", faunaAsociada: "Cangrejos, aves y peces juveniles.", ecosistema: "Manglares y estuarios.", conservacion: "Protegido por NOM-059.", curiosidad: "Sus hojas eliminan sal mediante glándulas especiales." },
+  { nombre: "Mangle negro", municipio: "La Paz", cientifico: "Avicennia germinans", toxica: true, usos: "Protección costera, sombra, hábitat.", faunaAsociada: "Aves zancudas, moluscos.", ecosistema: "Manglar.", conservacion: "Protegido legalmente.", curiosidad: "Sus raíces forman 'neumatóforos' que sobresalen del suelo." },
+  { nombre: "Palo fierro", municipio: "La Paz", cientifico: "Olneya tesota", toxica: false, usos: "Artesanías, carbón, carpintería.", faunaAsociada: "Aves, abejas, reptiles.", ecosistema: "Desierto y piedemontes áridos.", conservacion: "Amenazada por sobreexplotación.", curiosidad: "Su madera es tan densa que no flota en el agua." },
+  { nombre: "Biznaga de Evermann", municipio: "La Paz", cientifico: "Mammillaria evermanniana", toxica: false, usos: "Ornamental, conservación de biodiversidad.", faunaAsociada: "Insectos polinizadores.", ecosistema: "Zonas rocosas áridas.", conservacion: "Protegida (NOM-059).", curiosidad: "Endémica de BCS, muy apreciada por coleccionistas." },
+  { nombre: "Pino piñonero", municipio: "Los Cabos", cientifico: "Pinus cembroides subsp. lagunae", toxica: false, usos: "Madera, piñones comestibles.", faunaAsociada: "Ardillas, aves y mamíferos pequeños.", ecosistema: "Bosque de montaña.", conservacion: "Endémico y amenazado.", curiosidad: "Solo crece en las sierras altas de BCS." },
+  { nombre: "Madroño", municipio: "Los Cabos", cientifico: "Arbutus spp", toxica: true, usos: "Ornamental, medicinal en infusiones.", faunaAsociada: "Aves frugívoras e insectos.", ecosistema: "Bosques templados.", conservacion: "Sin riesgo alto.", curiosidad: "Su corteza se desprende en placas delgadas y rojizas." },
+  { nombre: "Encino", municipio: "Los Cabos", cientifico: "Quercus spp", toxica: true, usos: "Madera, leña, protección del suelo.", faunaAsociada: "Venados, ardillas, aves.", ecosistema: "Bosque de encino.", conservacion: "Vulnerable por cambio climático.", curiosidad: "Sus bellotas alimentan a muchas especies, pero son tóxicas para humanos." }
 ];
 
 // 🎵 SONIDOS
@@ -50,7 +50,7 @@ function toggleSonido() {
   btn.textContent = sonidos.habilitados ? "🔊 Sonidos: Activados" : "🔇 Sonidos: Desactivados";
 }
 
-// Registro
+// Registro con Firebase
 function registrar() {
   const nombre = document.getElementById("reg-nombre").value.trim();
   const password = document.getElementById("reg-password").value.trim();
@@ -80,7 +80,7 @@ function registrar() {
   alert("✅ Registro exitoso. Ahora puedes iniciar sesión.");
 }
 
-// Login
+// Login con Firebase
 function iniciarSesion() {
   const nombre = document.getElementById("login-nombre").value.trim();
   const password = document.getElementById("login-password").value.trim();
@@ -98,7 +98,7 @@ function iniciarSesion() {
       }
       usuario = usuarioGuardado;
       nivelActual = usuario.nivel || 1;
-      localStorage.setItem('usuarioActivo', claveUsuario); // Guarda la clave normalizada
+      localStorage.setItem('usuarioActivo', claveUsuario);
       document.getElementById("nombreUsuario").textContent = usuario.nombre;
       document.getElementById("auth-section").classList.add("hidden");
       document.getElementById("menu").classList.remove("hidden");
@@ -106,7 +106,7 @@ function iniciarSesion() {
     });
 }
 
-// Verifica sesión activa
+// Verifica sesión activa con Firebase
 function verificarSesionActiva() {
   const claveUsuario = localStorage.getItem('usuarioActivo');
   if (!claveUsuario) return;
@@ -126,7 +126,6 @@ function verificarSesionActiva() {
 function cerrarSesion() {
   const confirmar = confirm("¿Estás seguro que deseas cerrar sesión?");
   if (!confirmar) return;
-
   localStorage.removeItem('usuarioActivo');
   location.reload();
 }
@@ -136,6 +135,9 @@ function volverAlMenu() {
   document.getElementById("contenidoJuego").innerHTML = "";
   document.getElementById("contenidoJuego").classList.add("hidden");
   document.getElementById("contenidoAprender").classList.add("hidden");
+  document.getElementById("botonesAprender").classList.add("hidden");
+  document.getElementById("filtroMunicipios").classList.add("hidden");
+  document.getElementById("botonesMunicipios").classList.add("hidden");
   const instrucciones = document.getElementById("instruccionesJuego");
   instrucciones.classList.add("hidden");
   instrucciones.innerHTML = "";
@@ -153,14 +155,11 @@ function actualizarUsuarioEnFirebase() {
 
 // Mostrar sección aprender
 function mostrarAprender() {
+  document.getElementById("botonesAprender").classList.remove("hidden");
+  document.getElementById("filtroMunicipios").classList.remove("hidden");
   const cont = document.getElementById("contenidoAprender");
-  cont.innerHTML = `
-    <h2>🌸 Conoce la flora de Baja California Sur</h2>
-    <p>Explora algunas de las especies más representativas de nuestra región.</p>
-  `;
-
-  const galeria = document.createElement("div");
-  galeria.className = "galeria-flores";
+  const galeria = document.getElementById("galeriaFlores");
+  galeria.innerHTML = "";
 
   flores.forEach((flor, i) => {
     const plantaDiv = document.createElement("div");
@@ -170,19 +169,19 @@ function mostrarAprender() {
       <p><strong>Nombre común:</strong> ${flor.nombre}</p>
       <p><strong>Municipio:</strong> ${flor.municipio}</p>
       <p><em>Nombre científico:</em> ${flor.cientifico}</p>
+      <p class="toxicidad ${flor.toxica ? 'toxica' : 'no-toxica'}">
+        ${flor.toxica ? '🚫 Tóxica' : '✅ No tóxica'}
+      </p>
+      <div class="extra-info">
+        <p class="campo-usos hidden"><strong>Usos:</strong> ${flor.usos}</p>
+        <p class="campo-faunaAsociada hidden"><strong>Fauna asociada:</strong> ${flor.faunaAsociada}</p>
+        <p class="campo-ecosistema hidden"><strong>Ecosistema:</strong> ${flor.ecosistema}</p>
+        <p class="campo-conservacion hidden"><strong>Conservación:</strong> ${flor.conservacion}</p>
+        <p class="campo-curiosidad hidden"><strong>Dato curioso:</strong> ${flor.curiosidad}</p>
+      </div>
     `;
     galeria.appendChild(plantaDiv);
   });
-
-  cont.appendChild(galeria);
-
-  const botonVolver = document.createElement("button");
-  botonVolver.textContent = "⬅️ Volver al menú";
-  botonVolver.onclick = () => {
-    cont.classList.add("hidden");
-    volverAlMenu();
-  };
-  cont.appendChild(botonVolver);
 
   cont.classList.remove("hidden");
   document.getElementById("menu").classList.add("hidden");
@@ -294,15 +293,13 @@ function crearMemorama() {
                 nivelActual++;
                 usuario.nivel = nivelActual;
                 actualizarUsuarioEnFirebase();
-                localStorage.setItem(`usuario_${usuario.nombre}`, JSON.stringify(usuario));
                 document.getElementById("puntos").textContent = usuario.puntos;
-                iniciarMemorama(); // avanzar a siguiente nivel
+                iniciarMemorama();
               } else {
                 nivelActual = 1;
                 usuario.nivel = 1;
-                localStorage.setItem(`usuario_${usuario.nombre}`, JSON.stringify(usuario));
                 document.getElementById("puntos").textContent = usuario.puntos;
-                mostrarFelicitacion(); // mostrar solo al terminar el juego
+                mostrarFelicitacion();
               }
             }, 500);
           }
@@ -313,7 +310,7 @@ function crearMemorama() {
             if (intentosRestantes <= 0) {
               reproducirSonido("lose");
               alert("❌ Se acabaron los intentos.");
-              iniciarMemorama(); // reiniciar el mismo nivel
+              iniciarMemorama();
               return;
             }
           }
@@ -352,6 +349,7 @@ function actualizarIntentosEnPantalla() {
     document.getElementById("intentosRestantes").classList.remove("hidden");
   }
 }
+
 // Juego Une la foto con su nombre
 function iniciarUneFotos() {
   aciertos = 0;
@@ -368,7 +366,6 @@ function iniciarUneFotos() {
   const cont = document.getElementById("contenidoJuego");
   cont.innerHTML = "";
 
-  // Determinar cantidad según nivel
   let cantidad;
   if (nivelActual === 1) {
     cantidad = 5;
@@ -378,11 +375,9 @@ function iniciarUneFotos() {
     cantidad = 12;
   }
 
-  // Elegir flores sin repetir
   const seleccionadas = flores.slice().sort(() => 0.5 - Math.random()).slice(0, cantidad);
   const nombres = [...seleccionadas].sort(() => 0.5 - Math.random());
 
-  // Contenedor de imágenes
   const contImgs = document.createElement("div");
   contImgs.className = "une-fotos-imgs";
   seleccionadas.forEach((flor) => {
@@ -401,7 +396,6 @@ function iniciarUneFotos() {
   });
   cont.appendChild(contImgs);
 
-  // Contenedor de nombres
   const contNombres = document.createElement("div");
   contNombres.className = "une-fotos-nombres";
   nombres.forEach(flor => {
@@ -438,15 +432,13 @@ function iniciarUneFotos() {
               nivelActual++;
               usuario.nivel = nivelActual;
               actualizarUsuarioEnFirebase();
-              localStorage.setItem(`usuario_${usuario.nombre}`, JSON.stringify(usuario));
               document.getElementById("puntos").textContent = usuario.puntos;
-              iniciarUneFotos(); // avanzar al siguiente nivel
+              iniciarUneFotos();
             } else {
               nivelActual = 1;
               usuario.nivel = 1;
-              localStorage.setItem(`usuario_${usuario.nombre}`, JSON.stringify(usuario));
               document.getElementById("puntos").textContent = usuario.puntos;
-              mostrarFelicitacion(); // fin del juego
+              mostrarFelicitacion();
             }
           }, 300);
         }
@@ -465,7 +457,6 @@ function iniciarUneFotos() {
   });
   cont.appendChild(contNombres);
 }
-
 
 function lanzarConfeti() {
   const canvas = document.getElementById("confetiCanvas");
@@ -506,11 +497,10 @@ function lanzarConfeti() {
   }
   animate();
 }
+
 function mostrarFelicitacion() {
   const felicitacionDiv = document.getElementById("felicitacion");
   felicitacionDiv.classList.remove("hidden");
-
-  // Asegurar que el canvas tenga dimensiones reales después de ser visible
   requestAnimationFrame(() => {
     lanzarConfeti();
   });
@@ -520,11 +510,12 @@ function cerrarFelicitacion() {
   document.getElementById("felicitacion").classList.add("hidden");
   volverAlMenu();
 }
+
 function leerTexto(texto) {
   if ('speechSynthesis' in window) {
     const voz = new SpeechSynthesisUtterance(texto);
     voz.lang = 'es-MX';
-    voz.rate = 1; // velocidad normal
+    voz.rate = 1;
     voz.pitch = 1;
     window.speechSynthesis.speak(voz);
   } else {
@@ -532,7 +523,89 @@ function leerTexto(texto) {
   }
 }
 
+function toggleCampo(campo) {
+  const elementos = document.querySelectorAll(`.campo-${campo}`);
+  elementos.forEach(elem => elem.classList.toggle("hidden"));
+}
 
+function toggleMunicipios() {
+  document.getElementById("botonesMunicipios").classList.toggle("hidden");
+}
+
+function filtrarPorMunicipio(municipio) {
+  const galeria = document.getElementById("galeriaFlores");
+  galeria.innerHTML = "";
+
+  const lista = municipio === 'todos'
+    ? flores
+    : flores.filter(f => f.municipio.includes(municipio));
+
+  lista.forEach((flor, i) => {
+    const indexOriginal = flores.indexOf(flor);
+    const plantaDiv = document.createElement("div");
+    plantaDiv.className = "planta";
+    plantaDiv.innerHTML = `
+      <img src="img/flor${indexOriginal + 1}.jpeg" alt="${flor.nombre}">
+      <p><strong>Nombre común:</strong> ${flor.nombre}</p>
+      <p><strong>Municipio:</strong> ${flor.municipio}</p>
+      <p><em>Nombre científico:</em> ${flor.cientifico}</p>
+      <p class="toxicidad ${flor.toxica ? 'toxica' : 'no-toxica'}">
+        ${flor.toxica ? '🚫 Tóxica' : '✅ No tóxica'}
+      </p>
+      <div class="extra-info">
+        <p class="campo-usos hidden"><strong>Usos:</strong> ${flor.usos}</p>
+        <p class="campo-faunaAsociada hidden"><strong>Fauna asociada:</strong> ${flor.faunaAsociada}</p>
+        <p class="campo-ecosistema hidden"><strong>Ecosistema:</strong> ${flor.ecosistema}</p>
+        <p class="campo-conservacion hidden"><strong>Conservación:</strong> ${flor.conservacion}</p>
+        <p class="campo-curiosidad hidden"><strong>Dato curioso:</strong> ${flor.curiosidad}</p>
+      </div>
+    `;
+    galeria.appendChild(plantaDiv);
+  });
+}
+
+function filtrarToxicas(valor) {
+  const galeria = document.getElementById("galeriaFlores");
+  galeria.innerHTML = "";
+
+  let listaFiltrada;
+  if (valor === 'todas') {
+    listaFiltrada = flores;
+  } else {
+    listaFiltrada = flores.filter(f => f.toxica === valor);
+  }
+
+  listaFiltrada.forEach((flor, i) => {
+    const indexOriginal = flores.indexOf(flor);
+    const plantaDiv = document.createElement("div");
+    plantaDiv.className = "planta";
+    plantaDiv.innerHTML = `
+      <img src="img/flor${indexOriginal + 1}.jpeg" alt="${flor.nombre}">
+      <p><strong>Nombre común:</strong> ${flor.nombre}</p>
+      <p><strong>Municipio:</strong> ${flor.municipio}</p>
+      <p><em>Nombre científico:</em> ${flor.cientifico}</p>
+      <p class="toxicidad ${flor.toxica ? 'toxica' : 'no-toxica'}">
+        ${flor.toxica ? '🚫 Tóxica' : '✅ No tóxica'}
+      </p>
+      <div class="extra-info">
+        <p class="campo-usos hidden"><strong>Usos:</strong> ${flor.usos}</p>
+        <p class="campo-faunaAsociada hidden"><strong>Fauna asociada:</strong> ${flor.faunaAsociada}</p>
+        <p class="campo-ecosistema hidden"><strong>Ecosistema:</strong> ${flor.ecosistema}</p>
+        <p class="campo-conservacion hidden"><strong>Conservación:</strong> ${flor.conservacion}</p>
+        <p class="campo-curiosidad hidden"><strong>Dato curioso:</strong> ${flor.curiosidad}</p>
+      </div>
+    `;
+    galeria.appendChild(plantaDiv);
+  });
+}
+
+function mostrarAyuda() {
+  document.getElementById("modalAyuda").classList.remove("hidden");
+}
+
+function cerrarAyuda() {
+  document.getElementById("modalAyuda").classList.add("hidden");
+}
 
 // Ejecutar al cargar
 window.addEventListener('DOMContentLoaded', verificarSesionActiva);
