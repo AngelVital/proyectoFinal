@@ -632,5 +632,59 @@ const ayudaBtn = document.getElementById('ayudaFija');
     }
   });
 
+  // --- POPUP DE USUARIOS Y PUNTUACIONES ---
+const usuariosBtn = document.getElementById('usuariosBtn');
+const popupUsuarios = document.getElementById('popupUsuarios');
+const cerrarUsuarios = document.querySelector('.cerrar-usuarios');
+
+usuariosBtn.addEventListener('click', function() {
+  popupUsuarios.classList.add('visible');
+  cargarUsuariosPuntuaciones();
+});
+
+cerrarUsuarios.addEventListener('click', function() {
+  popupUsuarios.classList.remove('visible');
+});
+
+// Cerrar el popup si se hace clic fuera de él
+document.addEventListener('click', function(event) {
+  if (
+    popupUsuarios.classList.contains('visible') &&
+    !popupUsuarios.contains(event.target) &&
+    event.target !== usuariosBtn
+  ) {
+    popupUsuarios.classList.remove('visible');
+  }
+});
+
+// Cargar usuarios y puntuaciones desde Firebase
+function cargarUsuariosPuntuaciones() {
+  const tabla = document.getElementById('tablaUsuarios');
+  tabla.innerHTML = '<tr><td colspan="2">Cargando...</td></tr>';
+
+  // Ajusta la ruta si tu estructura es diferente
+  firebase.database().ref('usuarios').orderByChild('puntos').limitToLast(20).once('value', function(snapshot) {
+    const datos = [];
+    snapshot.forEach(function(child) {
+      const usuario = child.val();
+      datos.push({
+        nombre: usuario.nombre || child.key,
+        puntos: usuario.puntos || 0
+      });
+    });
+
+    // Ordenar de mayor a menor puntuación
+    datos.sort((a, b) => b.puntos - a.puntos);
+
+    if (datos.length === 0) {
+      tabla.innerHTML = '<tr><td colspan="2">No hay datos</td></tr>';
+    } else {
+      tabla.innerHTML = datos.map(u =>
+        `<tr><td>${u.nombre}</td><td>${u.puntos}</td></tr>`
+      ).join('');
+    }
+  });
+}
+
 // Ejecutar al cargar
 window.addEventListener('DOMContentLoaded', verificarSesionActiva);

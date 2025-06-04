@@ -88,7 +88,27 @@
         <button onclick="iniciarJuego('uneFotos')">🔗 Une la foto con su nombre</button>
 
         <p>🏆 Puntos: <span id="puntos">0</span></p>
-        <p><button id="btnSonido" onclick="toggleSonido()">🔊 Sonidos: Activados</button></p>
+        <p style="display: flex; gap: 10px; align-items: center;">
+        <button id="btnSonido" onclick="toggleSonido()">🔊 Sonidos: Activados</button>
+        <span class="usuarios-popup-contenedor">
+          <button id="usuariosBtn" type="button">Ver puntuaciones</button>
+          <div class="popup-usuarios" id="popupUsuarios">
+            <button class="cerrar-usuarios" type="button" aria-label="Cerrar">&times;</button>
+            <strong>Usuarios y puntuaciones</strong>
+            <table>
+              <thead>
+                <tr>
+                  <th>Usuario</th>
+                  <th>Puntos</th>
+                </tr>
+              </thead>
+              <tbody id="tablaUsuarios">
+                <!-- Se llenará dinámicamente -->
+              </tbody>
+            </table>
+          </div>
+        </span>
+      </p>
         <p><button onclick="cerrarSesion()">🚪 Cerrar sesión</button></p>
       </div>
 
@@ -151,30 +171,6 @@
     <!-- Botón para regresar al menú -->
     <button onclick="volverAlMenu()">⬅️ Volver al menú</button>
   </div>
-
-
-    <!-- Modal de Ayuda 
-  Texto fijo de ayuda
-  <div id="ayudaFija" onclick="mostrarAyuda()">❓ ¿Necesitas ayuda?</div>
-
-
-  <div id="modalAyuda" class="hidden modal-ayuda">
-    <div class="contenido-ayuda">
-      <h2>🆘 ¿Necesitas ayuda?</h2>
-      <p>Esta aplicación te enseña sobre las plantas de Baja California Sur.</p>
-      <ul>
-        <li>📚 <strong>Aprender</strong>: Mira fotos y aprende datos curiosos de cada planta.</li>
-        <li>🧠 <strong>Memorama</strong>: Encuentra las parejas de plantas iguales.</li>
-        <li>🔗 <strong>Une la foto</strong>: Arrastra la imagen hasta el nombre correcto.</li>
-        <li>🏆 <strong>Ganas puntos</strong> por jugar y aprender.</li>
-        <li>📢 Usa los botones para ver más información sobre las plantas.</li>
-        <li>🔊 Puedes activar o desactivar los sonidos.</li>
-      </ul>
-      <button onclick="cerrarAyuda()">Cerrar</button>
-    </div>
-  </div>-->
-
-  
 
   <script src="script.js"></script>
   
