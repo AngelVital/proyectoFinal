@@ -191,15 +191,28 @@ function mostrarAprender() {
 function iniciarJuego(nombreJuego) {
   intentosRestantes = null;
   document.getElementById("contenidoJuego").innerHTML = "";
-  document.getElementById("intentosRestantes").classList.remove("hidden");
+  document.getElementById("intentosRestantes").classList.add("hidden");
   mostrarJuego();
 
   if (nombreJuego === 'memorama') {
     iniciarMemorama();
   } else if (nombreJuego === 'uneFotos') {
     iniciarUneFotos();
-  }
+  } else if (nombreJuego === 'adivinaPlanta') {
+    iniciarAdivinaPlanta();
+  } else if (nombreJuego === 'trivia') {
+  iniciarTrivia();
+  } else if (nombreJuego === 'clasificaToxicidad') {
+  iniciarClasificaToxicidad();
+  } else if (nombreJuego === 'verdaderoFalso') {
+  iniciarVerdaderoFalso();
 }
+
+
+
+ 
+}
+
 
 // Mostrar juego
 function mostrarJuego() {
@@ -685,6 +698,428 @@ function cargarUsuariosPuntuaciones() {
     }
   });
 }
+
+function iniciarAdivinaPlanta() {
+  const instrucciones = document.getElementById("instruccionesJuego");
+  instrucciones.innerHTML = `
+    <h2>🌿 Adivina la planta</h2>
+    <p>Observa la imagen y selecciona el nombre correcto</p>
+    <button id="btnVolverMenu">⬅️ Volver al menú</button>
+  `;
+  document.getElementById("btnVolverMenu").onclick = volverAlMenu;
+
+  const cont = document.getElementById("contenidoJuego");
+  cont.innerHTML = "";
+
+  let cantidad;
+  if (nivelActual === 1) {
+    cantidad = 5;
+  } else if (nivelActual === 2) {
+    cantidad = 8;
+  } else {
+    cantidad = 12;
+  }
+
+  let aciertos = 0;
+
+  function mostrarPregunta() {
+    cont.innerHTML = "";
+
+    const plantaCorrecta = flores[Math.floor(Math.random() * flores.length)];
+    const opcionesIncorrectas = flores
+      .filter(f => f.nombre !== plantaCorrecta.nombre)
+      .sort(() => 0.5 - Math.random())
+      .slice(0, 2);
+
+    const opciones = [plantaCorrecta, ...opcionesIncorrectas].sort(() => 0.5 - Math.random());
+
+    const tarjeta = document.createElement("div");
+    tarjeta.className = "planta";
+    tarjeta.innerHTML = `
+      <img src="img/flor${flores.indexOf(plantaCorrecta) + 1}.jpeg" alt="${plantaCorrecta.nombre}">
+      <p><strong>¿Cuál es el nombre de esta planta?</strong></p>
+    `;
+    cont.appendChild(tarjeta);
+
+    const botonesContainer = document.createElement("div");
+
+    opciones.forEach(opcion => {
+      const btn = document.createElement("button");
+      btn.textContent = opcion.nombre;
+      btn.onclick = () => {
+        if (opcion.nombre === plantaCorrecta.nombre) {
+          aciertos++;
+          reproducirSonido("win");
+          alert("✅ ¡Correcto!");
+
+          if (aciertos >= cantidad) {
+            alert("🎉 ¡Nivel completado!");
+            usuario.puntos += 5;
+            actualizarUsuarioEnFirebase();
+
+            if (nivelActual < 3) {
+              nivelActual++;
+              usuario.nivel = nivelActual;
+              actualizarUsuarioEnFirebase();
+              document.getElementById("puntos").textContent = usuario.puntos;
+              iniciarAdivinaPlanta();
+            } else {
+              nivelActual = 1;
+              usuario.nivel = 1;
+              document.getElementById("puntos").textContent = usuario.puntos;
+              mostrarFelicitacion();
+            }
+          } else {
+            mostrarPregunta();
+          }
+
+        } else {
+          reproducirSonido("lose");
+          alert("❌ Incorrecto. Intenta de nuevo.");
+        }
+      };
+      botonesContainer.appendChild(btn);
+    });
+
+    cont.appendChild(botonesContainer);
+  }
+
+  mostrarPregunta();
+}
+function iniciarTrivia() {
+  const instrucciones = document.getElementById("instruccionesJuego");
+  instrucciones.innerHTML = `
+    <h2>❓ Trivia rápida</h2>
+    <p>Responde correctamente las preguntas para subir de nivel</p>
+    <button id="btnVolverMenu">⬅️ Volver al menú</button>
+  `;
+  document.getElementById("btnVolverMenu").onclick = volverAlMenu;
+
+  const cont = document.getElementById("contenidoJuego");
+  cont.innerHTML = "";
+
+  let cantidad;
+  if (nivelActual === 1) cantidad = 5;
+  else if (nivelActual === 2) cantidad = 8;
+  else cantidad = 12;
+
+  let aciertos = 0;
+
+  const camposTrivia = ['ecosistema', 'usos', 'faunaAsociada'];
+  const preguntas = [];
+
+  while (preguntas.length < cantidad) {
+    const planta = flores[Math.floor(Math.random() * flores.length)];
+    const campo = camposTrivia[Math.floor(Math.random() * camposTrivia.length)];
+
+    const preguntaTexto = {
+      ecosistema: `¿A qué ecosistema pertenece la planta "${planta.nombre}"?`,
+      usos: `¿Cuál es un uso de la planta "${planta.nombre}"?`,
+      faunaAsociada: `¿Qué fauna se asocia con "${planta.nombre}"?`
+    };
+
+    preguntas.push({
+      texto: preguntaTexto[campo],
+      respuestaCorrecta: planta[campo],
+      opciones: generarOpciones(planta[campo], campo)
+    });
+  }
+
+  function generarOpciones(correcta, campo) {
+    const opciones = [correcta];
+    const candidatos = flores
+      .map(f => f[campo])
+      .filter(val => val !== correcta);
+    const unicas = [...new Set(candidatos)].sort(() => 0.5 - Math.random()).slice(0, 2);
+    return [...opciones, ...unicas].sort(() => 0.5 - Math.random());
+  }
+
+  function mostrarPregunta(index) {
+    cont.innerHTML = "";
+
+    if (index >= preguntas.length) {
+      alert("🎉 ¡Nivel completado!");
+      usuario.puntos += 5;
+      actualizarUsuarioEnFirebase();
+
+      if (nivelActual < 3) {
+        nivelActual++;
+        usuario.nivel = nivelActual;
+        actualizarUsuarioEnFirebase();
+        document.getElementById("puntos").textContent = usuario.puntos;
+        iniciarTrivia();
+      } else {
+        nivelActual = 1;
+        usuario.nivel = 1;
+        document.getElementById("puntos").textContent = usuario.puntos;
+        mostrarFelicitacion();
+      }
+      return;
+    }
+
+    const pregunta = preguntas[index];
+
+    const preguntaDiv = document.createElement("div");
+    preguntaDiv.className = "planta";
+    preguntaDiv.innerHTML = `<p><strong>${pregunta.texto}</strong></p>`;
+    cont.appendChild(preguntaDiv);
+
+    pregunta.opciones.forEach(opcion => {
+      const btn = document.createElement("button");
+      btn.textContent = opcion;
+      btn.onclick = () => {
+        if (opcion === pregunta.respuestaCorrecta) {
+          aciertos++;
+          reproducirSonido("win");
+          alert("✅ ¡Correcto!");
+        } else {
+          reproducirSonido("lose");
+          alert("❌ Incorrecto. Era: " + pregunta.respuestaCorrecta);
+        }
+        mostrarPregunta(index + 1);
+      };
+      cont.appendChild(btn);
+    });
+  }
+
+  mostrarPregunta(0);
+}
+
+function iniciarClasificaToxicidad() {
+  const instrucciones = document.getElementById("instruccionesJuego");
+  instrucciones.innerHTML = `
+    <h2>🚥 Clasifica por toxicidad</h2>
+    <p>Arrastra cada planta a la categoría correcta</p>
+    <button id="btnVolverMenu">⬅️ Volver al menú</button>
+  `;
+  document.getElementById("btnVolverMenu").onclick = volverAlMenu;
+
+  const cont = document.getElementById("contenidoJuego");
+  cont.innerHTML = "";
+
+  const seleccionadas = flores.slice().sort(() => 0.5 - Math.random()).slice(0, 8);
+  let correctas = 0;
+  let total = seleccionadas.length;
+  let errores = [];
+
+  const contZonas = document.createElement("div");
+  contZonas.style.display = "flex";
+  contZonas.style.justifyContent = "space-around";
+  contZonas.style.marginBottom = "20px";
+
+  const zonas = ['toxica', 'no-toxica'];
+
+  zonas.forEach(tipo => {
+    const drop = document.createElement("div");
+    drop.className = `zona-drop ${tipo}`;
+    drop.dataset.tipo = tipo;
+    drop.innerHTML = `<h3>${tipo === 'toxica' ? '🟥 Tóxicas' : '🟩 No tóxicas'}</h3>`;
+    drop.style.width = "45%";
+    drop.style.minHeight = "200px";
+    drop.style.padding = "10px";
+    drop.style.border = "3px dashed gray";
+    drop.style.borderRadius = "10px";
+    drop.style.background = tipo === 'toxica' ? '#ffe5e5' : '#e5ffe5';
+    drop.style.textAlign = "center";
+
+    drop.ondragover = e => e.preventDefault();
+
+    drop.ondrop = e => {
+      const index = e.dataTransfer.getData("index");
+      const planta = seleccionadas[index];
+      const card = document.getElementById("planta-" + index);
+
+      const esCorrecto = (planta.toxica && tipo === 'toxica') || (!planta.toxica && tipo === 'no-toxica');
+
+      if (!card || card.classList.contains("clasificada")) return;
+
+      // Mostrar el nombre en la zona
+      const nombrePlanta = document.createElement("p");
+      nombrePlanta.textContent = planta.nombre;
+      nombrePlanta.style.fontWeight = "bold";
+      nombrePlanta.style.margin = "4px";
+      drop.appendChild(nombrePlanta);
+
+      card.style.opacity = "0.5";
+      card.style.pointerEvents = "none";
+      card.classList.add("clasificada");
+
+      if (esCorrecto) {
+        reproducirSonido("win");
+        usuario.puntos += 1;
+        correctas++;
+        document.getElementById("puntos").textContent = usuario.puntos;
+        actualizarUsuarioEnFirebase();
+      } else {
+        reproducirSonido("lose");
+        planta.clasificacionIncorrecta = tipo;
+        errores.push(planta);
+      }
+
+      if ((correctas + errores.length) === total) {
+        setTimeout(() => {
+          let mensaje = `🎉 ¡Has clasificado correctamente ${correctas} de ${total} plantas!\n\n`;
+
+          // Mostrar correctas
+          const correctasPlantas = seleccionadas.filter(p => !errores.includes(p));
+          mensaje += `✅ Correctas:\n` + correctasPlantas.map(p =>
+            `- ${p.nombre} → ${p.toxica ? 'Tóxica' : 'No tóxica'}`
+          ).join('\n');
+
+          // Mostrar errores
+          if (errores.length > 0) {
+            mensaje += `\n\n❌ Errores:\n` + errores.map(p =>
+              `- ${p.nombre} → Clasificada como "${p.clasificacionIncorrecta === 'toxica' ? 'Tóxica' : 'No tóxica'}" (correcto: ${p.toxica ? 'Tóxica' : 'No tóxica'})`
+            ).join('\n');
+          }
+
+          alert(mensaje);
+          mostrarFelicitacion();
+        }, 300);
+      }
+    };
+
+    contZonas.appendChild(drop);
+  });
+
+  cont.appendChild(contZonas);
+
+  const tarjetas = document.createElement("div");
+  tarjetas.className = "tarjetas-clasificacion";
+  tarjetas.style.display = "flex";
+  tarjetas.style.flexWrap = "wrap";
+  tarjetas.style.justifyContent = "center";
+  tarjetas.style.gap = "20px";
+
+  seleccionadas.forEach((flor, i) => {
+    const card = document.createElement("div");
+    card.className = "planta";
+    card.id = "planta-" + i;
+    card.draggable = true;
+    card.dataset.index = i;
+    card.innerHTML = `
+      <img src="img/flor${flores.indexOf(flor) + 1}.jpeg" alt="${flor.nombre}" style="width: 100px;">
+      <p>${flor.nombre}</p>
+    `;
+    card.ondragstart = e => {
+      reproducirSonido("click");
+      e.dataTransfer.setData("index", i);
+    };
+    tarjetas.appendChild(card);
+  });
+
+  cont.appendChild(tarjetas);
+}
+
+// Juego: Verdadero o falso
+function iniciarVerdaderoFalso() {
+  const instrucciones = document.getElementById("instruccionesJuego");
+  instrucciones.innerHTML = `
+    <h2>✅❌ Verdadero o falso</h2>
+    <p>Lee la afirmación y elige la opción correcta</p>
+    <button id="btnVolverMenu">⬅️ Volver al menú</button>
+  `;
+  document.getElementById("btnVolverMenu").onclick = volverAlMenu;
+
+  const cont = document.getElementById("contenidoJuego");
+  cont.innerHTML = "";
+
+  let cantidad;
+  if (nivelActual === 1) cantidad = 5;
+  else if (nivelActual === 2) cantidad = 8;
+  else cantidad = 12;
+
+  let aciertos = 0;
+  let preguntas = [];
+
+  for (let i = 0; i < cantidad; i++) {
+    const flor = flores[Math.floor(Math.random() * flores.length)];
+    const campo = ["toxica", "ecosistema", "usos", "faunaAsociada"][Math.floor(Math.random() * 4)];
+
+    const esVerdadera = Math.random() < 0.5;
+    let valorCorrecto = flor[campo];
+    let valorMostrado = valorCorrecto;
+
+    if (!esVerdadera) {
+      const otras = flores.filter(f => f[campo] !== valorCorrecto);
+      valorMostrado = otras[Math.floor(Math.random() * otras.length)][campo];
+    }
+
+    let afirmacion = "";
+    if (campo === "toxica") {
+      afirmacion = `${flor.nombre} ${valorMostrado ? 'es' : 'no es'} una planta tóxica.`;
+    } else if (campo === "ecosistema") {
+      afirmacion = `${flor.nombre} pertenece al ecosistema: ${valorMostrado}.`;
+    } else if (campo === "usos") {
+      afirmacion = `${flor.nombre} se utiliza para: ${valorMostrado}`;
+    } else if (campo === "faunaAsociada") {
+      afirmacion = `${flor.nombre} está asociada con: ${valorMostrado}`;
+    }
+
+    preguntas.push({ texto: afirmacion, correcta: esVerdadera });
+  }
+
+  function mostrarPregunta(index) {
+    if (index >= preguntas.length) {
+      alert(`🎉 Nivel completado con ${aciertos} aciertos de ${cantidad}`);
+      usuario.puntos += aciertos;
+      actualizarUsuarioEnFirebase();
+      if (nivelActual < 3) {
+        nivelActual++;
+        usuario.nivel = nivelActual;
+        actualizarUsuarioEnFirebase();
+        iniciarVerdaderoFalso();
+      } else {
+        nivelActual = 1;
+        usuario.nivel = 1;
+        mostrarFelicitacion();
+      }
+      return;
+    }
+
+    cont.innerHTML = "";
+    const p = preguntas[index];
+
+    const tarjeta = document.createElement("div");
+    tarjeta.className = "planta";
+    tarjeta.innerHTML = `<p><strong>${p.texto}</strong></p>`;
+    cont.appendChild(tarjeta);
+
+    const btnV = document.createElement("button");
+    btnV.textContent = "✅ Verdadero";
+    btnV.onclick = () => {
+      if (p.correcta) {
+        reproducirSonido("win");
+        aciertos++;
+      } else {
+        reproducirSonido("lose");
+        alert("❌ Incorrecto");
+      }
+      mostrarPregunta(index + 1);
+    };
+
+    const btnF = document.createElement("button");
+    btnF.textContent = "❌ Falso";
+    btnF.onclick = () => {
+      if (!p.correcta) {
+        reproducirSonido("win");
+        aciertos++;
+      } else {
+        reproducirSonido("lose");
+        alert("❌ Incorrecto");
+      }
+      mostrarPregunta(index + 1);
+    };
+
+    cont.appendChild(btnV);
+    cont.appendChild(btnF);
+  }
+
+  mostrarPregunta(0);
+}
+``
+
+
 
 // Ejecutar al cargar
 window.addEventListener('DOMContentLoaded', verificarSesionActiva);
