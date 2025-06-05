@@ -1,88 +1,137 @@
 /* General */
 body {
-  background: #f0f4f8;
+  background: linear-gradient(to right, #fef6e4, #fcd5ce);
   color: #333;
   padding: 20px;
   min-height: 100vh;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Contenedores y secciones (excepto #auth-section) */
-#menu, #contenidoAprender, #contenidoJuego {
-  width: 100%;
-  max-width: 900px;
-  background: white;
-  border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 3px 10px rgb(0 0 0 / 0.1);
-}
-
-/* Ocultar con clase hidden */
 .hidden {
   display: none !important;
 }
 
-/* Menu */
-#menu button {
-  margin: 10px 0;
+/* Contenedores */
+.container {
   width: 100%;
-  max-width: 320px;
-  font-size: 1.1rem;
-  cursor: pointer;
-  background-color: #0078d4;
-  color: white;
+  max-width: 900px;
+}
+
+/* Botones generales */
+button {
+  background-color: #ffb703;
+  color: #fff;
   border: none;
-  font-weight: 600;
-  border-radius: 6px;
-  transition: background-color 0.3s;
+  padding: 12px 20px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  margin: 8px 0;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
-#menu button:hover {
-  background-color: #005ea3;
+button:hover {
+  background-color: #fb8500;
+  transform: scale(1.05);
 }
 
-/* Galería de flores */
+button:active {
+  transform: scale(0.95);
+}
+
+/* Auth Section */
+#auth-section {
+  background: linear-gradient(135deg, #fefae0, #faedcd);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  width: 100%;
+  text-align: center;
+}
+
+#auth-section h2 {
+  font-size: 2rem;
+  color: #588157;
+}
+
+#register-form,
+#login-form {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+
+/* SOLO CAMBIO EN ESTA PARTE */
+#register-form input,
+#login-form input,
+#register-form select {
+  width: 90%;
+  display: block;
+  margin: 10px auto;
+  padding: 10px 14px;
+  border: 2px solid #d9d9d9;
+  border-radius: 10px;
+  font-size: 1rem;
+  outline: none;
+}
+
+#register-form select {
+  background-color: #f4f4f4;
+  cursor: pointer;
+}
+
+/* Menú */
+#menu {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  margin-top: 20px;
+  width: 100%;
+}
+
+/* Galería */
 .galeria-flores {
   display: flex;
   flex-wrap: wrap;
-  gap: 15px;
+  gap: 20px;
   justify-content: center;
 }
 
 .planta {
   width: 180px;
-  background: #fafafa;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
-  padding: 12px;
+  background: #fff5e1;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  padding: 10px;
   text-align: center;
 }
 
 .planta img {
   max-width: 100%;
-  border-radius: 6px;
-  margin-bottom: 8px;
+  border-radius: 8px;
+  margin-bottom: 10px;
 }
 
 /* Memorama */
 .memorama-grid {
   display: grid;
-  gap: 10px;
+  gap: 12px;
   justify-content: center;
   margin-top: 20px;
-  grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
   max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 .carta {
-  width: 70px;
-  height: 90px;
+  width: 80px;
+  height: 100px;
   perspective: 800px;
   cursor: pointer;
   position: relative;
@@ -94,9 +143,9 @@ body {
   position: relative;
   transition: transform 0.6s;
   transform-style: preserve-3d;
-  border-radius: 8px;
-  box-shadow: 0 1px 4px rgb(0 0 0 / 0.25);
+  border-radius: 10px;
   background: white;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 .carta.volteada .cara-contenedor {
@@ -107,48 +156,37 @@ body {
   position: absolute;
   width: 100%;
   height: 100%;
-  border-radius: 8px;
+  border-radius: 10px;
   backface-visibility: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2rem;
-  user-select: none;
 }
 
 .cara.frontal {
-  background: #fff;
+  background: #ffffff;
   transform: rotateY(180deg);
-  border: 1px solid #ddd;
 }
 
 .cara.frontal img {
   max-width: 90%;
-  max-height: 80%;
+  max-height: 85%;
   border-radius: 6px;
 }
 
 .cara.reverso {
-  background: #0078d4;
+  background: #90e0ef;
   color: white;
-  border: 1px solid #005ea3;
+  font-size: 2rem;
+  border: 2px solid #0077b6;
 }
 
-/* Contador intentos */
-#intentosRestantes {
-  font-size: 1.1rem;
-  margin: 10px 0 0 0;
-  color: #555;
-  font-weight: 600;
-  text-align: center;
-}
-
-/* Juego Une la foto con su nombre */
+/* Une la foto */
 .une-fotos-imgs,
 .une-fotos-nombres {
   display: flex;
   flex-wrap: wrap;
-  gap: 15px;
+  gap: 20px;
   justify-content: center;
   margin: 20px 0;
 }
@@ -157,46 +195,250 @@ body {
   width: 110px;
   height: 90px;
   object-fit: cover;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgb(0 0 0 / 0.15);
+  border-radius: 10px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
   cursor: grab;
-  user-select: none;
   transition: opacity 0.3s;
 }
 
 .drop-nombre {
-  background-color: #e0e7ff;
-  border-radius: 8px;
-  padding: 14px 18px;
-  font-weight: 600;
-  border: 2px dashed #7a88cc;
-  min-width: 140px;
-  text-align: center;
-  user-select: none;
-  transition: background-color 0.3s;
-}
-
-.drop-nombre:hover {
-  background-color: #c3caff;
-}
-
-/* Mensajes de estado */
-.alerta {
-  padding: 10px;
-  margin: 10px 0;
-  border-radius: 6px;
-  font-weight: 600;
+  background-color: #caf0f8;
+  border-radius: 10px;
+  padding: 16px 20px;
+  font-weight: bold;
+  border: 3px dashed #00b4d8;
+  min-width: 160px;
   text-align: center;
 }
 
-.alerta.error {
-  background-color: #ffe2e2;
-  color: #b00000;
+/* Contador intentos */
+#intentosRestantes {
+  font-size: 1.1rem;
+  color: #333;
+  font-weight: bold;
+  text-align: center;
 }
 
-.alerta.exito {
-  background-color: #d4edda;
-  color: #155724;
+/* Pantalla de felicitación */
+#felicitacion {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #fefae0ee;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 9999;
+  text-align: center;
+  animation: fadeIn 0.5s ease-in;
+}
+
+.felicitacion-contenido {
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 2;
+}
+
+#felicitacion h2 {
+  font-size: 2.2rem;
+  color: #588157;
+}
+
+#felicitacion p {
+  font-size: 1.2rem;
+  margin: 10px 0 20px;
+}
+
+#felicitacion button {
+  background-color: #80b918;
+  color: white;
+  padding: 12px 20px;
+  font-size: 1.1rem;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+#confetiCanvas {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.ayuda-flotante {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  #ayudaFija {
+    font-size: 1rem;
+    color: #1d3557;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: underline;
+    background: #fffbe6;
+    border: 2px solid #ffb703;
+    border-radius: 10px;
+    padding: 10px 18px;
+    box-shadow: 0 2px 8px rgba(255,183,3,0.10);
+    transition: background 0.2s, border-color 0.2s;
+  }
+
+  #ayudaFija:hover {
+    background: #ffe5b4;
+    border-color: #fb8500;
+    color: #fb8500;
+  }
+
+  .popup-ayuda {
+    display: none;
+    position: absolute;
+    bottom: 48px;
+    right: 0;
+    min-width: 260px;
+    max-width: 320px;
+    background: #fffbe6;
+    color: #333;
+    border: 2px solid #ffb703;
+    border-radius: 14px;
+    box-shadow: 0 4px 16px rgba(251, 133, 0, 0.18);
+    padding: 18px 20px 14px 20px;
+    font-size: 1rem;
+    line-height: 1.5;
+    z-index: 1001;
+    animation: fadeIn 0.3s;
+  }
+
+  .popup-ayuda.visible {
+    display: block;
+  }
+
+  .cerrar-ayuda {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    color: #fb8500;
+    cursor: pointer;
+    font-weight: bold;
+    transition: color 0.2s;
+  }
+
+  .cerrar-ayuda:hover {
+    color: #d00000;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px);}
+    to { opacity: 1; transform: translateY(0);}
+  }
+
+  .usuarios-popup-contenedor {
+  position: relative;
+  display: inline-block;
+}
+
+/*
+#usuariosBtn {
+  font-size: 1rem;
+  color: #1d3557;
+  font-weight: bold;
+  cursor: pointer;
+  background: #e0f7fa;
+  border: 2px solid #ffb703;
+  border-radius: 10px;
+  padding: 10px 18px;
+  margin-left: 10px;
+  box-shadow: 0 2px 8px rgba(0,180,216,0.10);
+  transition: background 0.2s, border-color 0.2s;
+}
+
+#usuariosBtn:hover {
+  background: #caf0f8;
+  border-color: #ffb703;
+  color: #ffb703;
+}
+*/
+.popup-usuarios {
+  display: none;
+  position: absolute;
+  top: 48px;
+  right: 0;
+  min-width: 260px;
+  max-width: 340px;
+  background: #e0f7fa;
+  color: #333;
+  border: 2px solid #ffb703;
+  border-radius: 14px;
+  box-shadow: 0 4px 16px rgba(0,180,216,0.18);
+  padding: 18px 20px 14px 20px;
+  font-size: 1rem;
+  line-height: 1.5;
+  z-index: 1001;
+  animation: fadeIn 0.3s;
+}
+
+.popup-usuarios.visible {
+  display: block;
+}
+
+.cerrar-usuarios {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  color: #ffb703;
+  cursor: pointer;
+  font-weight: bold;
+  transition: color 0.2s;
+}
+
+.cerrar-usuarios:hover {
+  color: #d00000;
+}
+
+.popup-usuarios table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.popup-usuarios th, .popup-usuarios td {
+  padding: 6px 8px;
+  text-align: left;
+}
+
+.popup-usuarios th {
+  background: #caf0f8;
+  color: #ffb703;
+  font-weight: bold;
+}
+
+.popup-usuarios tr:nth-child(even) {
+  background: #f1fcff;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px);}
+  to { opacity: 1; transform: translateY(0);}
 }
 
 /* Responsive */
@@ -216,7 +458,130 @@ body {
     padding: 10px;
   }
 
-  #menu button {
+  button {
     max-width: 100%;
   }
+
+  .hidden {
+    display: none;
+  }
+
+  .botones-aprender {
+    margin-bottom: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .botones-aprender button {
+  padding: 0.7rem 1.5rem;
+  background: linear-gradient(90deg, #fffbe6 0%, #ffb703 100%);
+  color: #333;
+  border: 2px solid #ffb703;
+  border-radius: 16px;
+  font-size: 1.08rem;
+  font-weight: bold;
+  box-shadow: 0 2px 8px rgba(255, 183, 3, 0.10);
+  cursor: pointer;
+  margin: 0.3rem 0.5rem 0.7rem 0;
+  transition: 
+    background 0.2s,
+    border-color 0.2s,
+    color 0.2s,
+    box-shadow 0.2s,
+    transform 0.15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  letter-spacing: 0.5px;
 }
+
+.botones-aprender button:hover,
+.botones-aprender button:focus {
+  background: linear-gradient(90deg, #ffe5b4 0%, #fb8500 100%);
+  border-color: #fb8500;
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(251, 133, 0, 0.18);
+  transform: translateY(-2px) scale(1.04);
+  outline: none;
+}
+
+.botones-aprender button:active {
+  background: linear-gradient(90deg, #ffd580 0%, #ffb703 100%);
+  border-color: #ffb703;
+  color: #b36b00;
+  transform: scale(0.98);
+}
+  .filtro-municipios {
+    margin-bottom: 1rem;
+  }
+
+  .botones-municipios {
+    margin-top: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .botones-municipios.hidden {
+    display: none;
+  }
+
+  .botones-municipios button {
+    padding: 0.4rem 1rem;
+    background-color: #dcefff;
+    border: 1px solid #a2cbe9;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  .botones-municipios button:hover {
+    background-color: #c0e4ff;
+  }
+  .toxicidad {
+    font-weight: bold;
+    padding: 6px;
+    border-radius: 6px;
+    margin: 8px 0;
+    display: inline-block;
+  }
+
+  .toxica {
+    background-color: #ffcccc;
+    color: #a30000;
+  }
+
+  .no-toxica {
+    background-color: #ccffd9;
+    color: #006400;
+  }
+
+  #contenidoJuego .planta {
+  max-width: 300px;
+  margin: auto;
+  background: #fff5e1;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+#contenidoJuego .planta img {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+  
+.zona-drop h3 {
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+}
+
+
+
+
+
