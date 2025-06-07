@@ -470,48 +470,52 @@ button:active {
     margin-bottom: 1rem;
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    /* Use gap for consistent spacing between buttons */
+    gap: 0.5rem; /* This controls the space between buttons */
+    /* Optional: Center the buttons if they don't fill the whole line */
+    justify-content: center;
   }
 
   .botones-aprender button {
-  padding: 0.7rem 1.5rem;
-  background: linear-gradient(90deg, #fffbe6 0%, #ffb703 100%);
-  color: #333;
-  border: 2px solid #ffb703;
-  border-radius: 16px;
-  font-size: 1.08rem;
-  font-weight: bold;
-  box-shadow: 0 2px 8px rgba(255, 183, 3, 0.10);
-  cursor: pointer;
-  margin: 0.3rem 0.5rem 0.7rem 0;
-  transition: 
-    background 0.2s,
-    border-color 0.2s,
-    color 0.2s,
-    box-shadow 0.2s,
-    transform 0.15s;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5em;
-  letter-spacing: 0.5px;
-}
+    padding: 0.7rem 1.5rem;
+    background: linear-gradient(90deg, #fffbe6 0%, #ffb703 100%);
+    color: #333;
+    border: 2px solid #ffb703;
+    border-radius: 16px;
+    font-size: 1.08rem;
+    font-weight: bold;
+    box-shadow: 0 2px 8px rgba(255, 183, 3, 0.10);
+    cursor: pointer;
+    /* REMOVE OR COMMENT OUT THIS LINE:
+    margin: 0.3rem 0.5rem 0.7rem 0; */
+    transition:
+      background 0.2s,
+      border-color 0.2s,
+      color 0.2s,
+      box-shadow 0.2s,
+      transform 0.15s;
+    display: inline-flex; /* Use flex for internal content alignment if needed */
+    align-items: center;
+    gap: 0.5em; /* If you had icons or text inside the button */
+    letter-spacing: 0.5px;
+  }
 
-.botones-aprender button:hover,
-.botones-aprender button:focus {
-  background: linear-gradient(90deg, #ffe5b4 0%, #fb8500 100%);
-  border-color: #fb8500;
-  color: #fff;
-  box-shadow: 0 4px 16px rgba(251, 133, 0, 0.18);
-  transform: translateY(-2px) scale(1.04);
-  outline: none;
-}
+  .botones-aprender button:hover,
+  .botones-aprender button:focus {
+    background: linear-gradient(90deg, #ffe5b4 0%, #fb8500 100%);
+    border-color: #fb8500;
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(251, 133, 0, 0.18);
+    transform: translateY(-2px) scale(1.04);
+    outline: none;
+  }
 
-.botones-aprender button:active {
-  background: linear-gradient(90deg, #ffd580 0%, #ffb703 100%);
-  border-color: #ffb703;
-  color: #b36b00;
-  transform: scale(0.98);
-}
+  .botones-aprender button:active {
+    background: linear-gradient(90deg, #ffd580 0%, #ffb703 100%);
+    border-color: #ffb703;
+    color: #b36b00;
+    transform: scale(0.98);
+  }
   .filtro-municipios {
     margin-bottom: 1rem;
   }
@@ -556,6 +560,7 @@ button:active {
     background-color: #ccffd9;
     color: #006400;
   }
+}
 
   #contenidoJuego .planta {
   max-width: 300px;
