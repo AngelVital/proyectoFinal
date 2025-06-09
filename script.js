@@ -1,3 +1,4 @@
+
 let usuario = {
   nombre: "",
   puntos: 0,
@@ -173,11 +174,11 @@ function mostrarAprender() {
         ${flor.toxica ? '🚫 Tóxica' : '✅ No tóxica'}
       </p>
       <div class="extra-info">
-        <p class="campo-usos"><strong>Usos:</strong> ${flor.usos}</p>
-        <p class="campo-faunaAsociada"><strong>Fauna asociada:</strong> ${flor.faunaAsociada}</p>
-        <p class="campo-ecosistema"><strong>Ecosistema:</strong> ${flor.ecosistema}</p>
-        <p class="campo-conservacion"><strong>Conservación:</strong> ${flor.conservacion}</p>
-        <p class="campo-curiosidad"><strong>Dato curioso:</strong> ${flor.curiosidad}</p>
+        <p class="campo-usos hidden"><strong>Usos:</strong> ${flor.usos}</p>
+        <p class="campo-faunaAsociada hidden"><strong>Fauna asociada:</strong> ${flor.faunaAsociada}</p>
+        <p class="campo-ecosistema hidden"><strong>Ecosistema:</strong> ${flor.ecosistema}</p>
+        <p class="campo-conservacion hidden"><strong>Conservación:</strong> ${flor.conservacion}</p>
+        <p class="campo-curiosidad hidden"><strong>Dato curioso:</strong> ${flor.curiosidad}</p>
       </div>
     `;
     galeria.appendChild(plantaDiv);
