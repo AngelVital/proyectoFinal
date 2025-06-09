@@ -29,15 +29,15 @@
   <div class="popup-ayuda" id="popupAyuda">
     <button class="cerrar-ayuda" onclick="cerrarPopupAyuda()">&times;</button>
     <h2>🆘 ¿Necesitas ayuda?</h2>
-      <p>Esta aplicación te enseña sobre las plantas de Baja California Sur.</p>
-      <ul>
-        <li>📚 <strong>Aprender</strong>: Mira fotos y aprende datos curiosos de cada planta.</li>
-        <li>🧠 <strong>Memorama</strong>: Encuentra las parejas de plantas iguales.</li>
-        <li>🔗 <strong>Une la foto</strong>: Arrastra la imagen hasta el nombre correcto.</li>
-        <li>🏆 <strong>Ganas puntos</strong> por jugar y aprender.</li>
-        <li>📢 Usa los botones para ver más información sobre las plantas.</li>
-        <li>🔊 Puedes activar o desactivar los sonidos.</li>
-      </ul>
+    <p>Esta aplicación te enseña sobre las plantas de Baja California Sur.</p>
+    <ul>
+      <li>📚 <strong>Aprender</strong>: Mira fotos y aprende datos curiosos de cada planta.</li>
+      <li>🧠 <strong>Memorama</strong>: Encuentra las parejas de plantas iguales.</li>
+      <li>🔗 <strong>Une la foto</strong>: Arrastra la imagen hasta el nombre correcto.</li>
+      <li>🏆 <strong>Ganas puntos</strong> por jugar y aprender.</li>
+      <li>📢 Usa los botones para ver más información sobre las plantas.</li>
+      <li>🔊 Puedes activar o desactivar los sonidos.</li>
+    </ul>
   </div>
 </div>
 
@@ -46,7 +46,6 @@
     <div class="container">
       <h1>🌿 Aprende Jugando - Flora de Tu Estado</h1>
 
-      <!-- Registro e Inicio de Sesión -->
       <div id="auth-section">
         <h2>🌼 Bienvenido</h2>
         <div id="register-form">
@@ -76,7 +75,6 @@
         </div>
       </div>
 
-      <!-- Menú principal -->
       <div id="menu" class="hidden">
         <p>👋 Bienvenido, <span id="nombreUsuario"></span></p>
         <p>Primero aprenderemos sobre las plantas de Baja California Sur y después fortaleceremos nuestro conocimiento con juegos.</p>
@@ -91,7 +89,6 @@
         <button onclick="iniciarJuego('clasificaToxicidad')">🚥 Clasifica por toxicidad</button>
         <button onclick="iniciarJuego('verdaderoFalso')">✅❌ Verdadero o Falso</button>
 
-      
 
         <p>🏆 Puntos: <span id="puntos">0</span></p>
         <p style="display: flex; gap: 10px; align-items: center;">
@@ -109,8 +106,7 @@
                 </tr>
               </thead>
               <tbody id="tablaUsuarios">
-                <!-- Se llenará dinámicamente -->
-              </tbody>
+                </tbody>
             </table>
           </div>
         </span>
@@ -118,16 +114,13 @@
         <p><button onclick="cerrarSesion()">🚪 Cerrar sesión</button></p>
       </div>
 
-      <!-- Contador de intentos -->
       <p id="intentosRestantes" class="hidden">Intentos restantes: <span id="contadorIntentos"></span></p>
 
-      <!-- Secciones dinámicas -->
       <div id="contenidoJuego" class="hidden"></div>
       <div id="instruccionesJuego" class="hidden"></div>
     </div>
   </div>
 
-  <!-- Pantalla de felicitación -->
   <div id="felicitacion" class="hidden">
     <div class="felicitacion-contenido">
       <h2>🎉 ¡Felicidades!</h2>
@@ -136,29 +129,24 @@
       <canvas id="confetiCanvas"></canvas>
     </div>
   </div>
- 
-  <!-- Sección "Aprender" -->
+
   <div id="contenidoAprender" class="hidden">
     <h2>🌸 Conoce la flora de Baja California Sur</h2>
     <p>Explora algunas de las especies más representativas de nuestra región.</p>
 
-    <!-- Botones de campos adicionales: inicialmente ocultos -->
     <div id="botonesAprender" class="botones-aprender hidden">
       <button onclick="toggleCampo('usos')">Usos</button>
       <button onclick="toggleCampo('faunaAsociada')">Fauna asociada</button>
       <button onclick="toggleCampo('ecosistema')">Ecosistema</button>
       <button onclick="toggleCampo('conservacion')">Conservación</button>
       <button onclick="toggleCampo('curiosidad')">Dato curioso</button>
-
-      <!-- Añadido -->
-      <div id="botonesToxicidad" class="botones-aprender">
-        <button onclick="filtrarToxicas(true)">🌿 Tóxicas</button>
-        <button onclick="filtrarToxicas(false)">🌱 No tóxicas</button>
-        <button onclick="filtrarToxicas('todas')">Mostrar todas</button>
-      </div>
     </div>
 
-    <!-- Botón de filtro por municipio: inicialmente oculto -->
+    <div id="botonesToxicidad" class="botones-filtros-toxicidad"> <button onclick="filtrarToxicas(true)">🌿 Tóxicas</button>
+      <button onclick="filtrarToxicas(false)">🌱 No tóxicas</button>
+      <button onclick="filtrarToxicas('todas')">Mostrar todas</button>
+    </div>
+
     <div id="filtroMunicipios" class="filtro-municipios hidden">
       <button onclick="toggleMunicipios()">📍 Municipios</button>
       <div id="botonesMunicipios" class="botones-municipios hidden">
@@ -171,14 +159,12 @@
       </div>
     </div>
 
-    <!-- Galería de flores -->
     <div class="galeria-flores" id="galeriaFlores"></div>
 
-    <!-- Botón para regresar al menú -->
     <button onclick="volverAlMenu()">⬅️ Volver al menú</button>
   </div>
 
   <script src="script.js"></script>
-  
+
 </body>
 </html>
