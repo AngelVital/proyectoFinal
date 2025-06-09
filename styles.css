@@ -43,6 +43,39 @@ button:active {
   transform: scale(0.95);
 }
 
+#botonesAprender {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  background: #fffbe6;
+  z-index: 100;
+  padding: 16px 0 10px 0;
+  box-shadow: 0 2px 8px rgba(255,183,3,0.08);
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+#filtroMunicipios {
+  position: fixed;
+  top: 60px; /* Ajusta según la altura de #botonesAprender */
+  left: 0;
+  width: 100vw;
+  background: #fffbe6;
+  z-index: 99;
+  padding: 10px 0 10px 0;
+  box-shadow: 0 2px 8px rgba(255,183,3,0.05);
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+/* Para que la galería no quede tapada por los elementos fijos */
+#galeriaFlores {
+  margin-top: 120px; /* Suma la altura de ambos elementos fijos */
+}
+
 /* Auth Section */
 #auth-section {
   background: linear-gradient(135deg, #fefae0, #faedcd);
