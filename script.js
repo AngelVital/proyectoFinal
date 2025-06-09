@@ -82,29 +82,74 @@ function registrar() {
 }
 
 // Login con Firebase
+// Variable global para niveles por juego
+let nivelesJuegos = {};
+
+// Login con Firebase - MODIFICADO
 function iniciarSesion() {
   const nombre = document.getElementById("login-nombre").value.trim();
   const password = document.getElementById("login-password").value.trim();
   const claveUsuario = nombre.toLowerCase().replace(/\s+/g, '');
+  
   firebase.database().ref("usuarios/" + claveUsuario).once("value")
     .then(snapshot => {
       if (!snapshot.exists()) {
         alert("⚠️ Usuario no registrado.");
         return;
       }
+      
       const usuarioGuardado = snapshot.val();
       if (usuarioGuardado.password !== password) {
         alert("❌ Contraseña incorrecta.");
         return;
       }
+      
       usuario = usuarioGuardado;
+      
+      // NUEVO: Cargar niveles por juego
+      nivelesJuegos = usuario.niveles || {};
+      
+      // Mantener compatibilidad con sistema anterior
       nivelActual = usuario.nivel || 1;
+      
       localStorage.setItem('usuarioActivo', claveUsuario);
       document.getElementById("nombreUsuario").textContent = usuario.nombre;
       document.getElementById("auth-section").classList.add("hidden");
       document.getElementById("menu").classList.remove("hidden");
       document.getElementById("puntos").textContent = usuario.puntos;
     });
+}
+
+// Función actualizada para guardar en Firebase
+function actualizarUsuarioEnFirebase() {
+  const claveUsuario = usuario.nombre.toLowerCase().replace(/\s+/g, '');
+  firebase.database().ref("usuarios/" + claveUsuario).update({
+    puntos: usuario.puntos,
+    nivel: nivelActual, // mantener para compatibilidad
+    niveles: nivelesJuegos // NUEVO: niveles por juego
+  });
+}
+
+// NUEVAS funciones para manejar niveles por juego
+function obtenerNivelJuego(nombreJuego) {
+  return nivelesJuegos[nombreJuego] || 1;
+}
+
+function actualizarNivelJuego(nombreJuego, nuevoNivel) {
+  nivelesJuegos[nombreJuego] = nuevoNivel;
+  actualizarUsuarioEnFirebase();
+}
+
+function subirNivelJuego(nombreJuego) {
+  const nivelActual = obtenerNivelJuego(nombreJuego);
+  actualizarNivelJuego(nombreJuego, nivelActual + 1);
+  console.log(`¡Nivel ${nivelActual + 1} desbloqueado en ${nombreJuego}!`);
+}
+
+// Función para mostrar nivel actual de un juego en la UI
+function mostrarNivelJuego(nombreJuego, elementoId) {
+  const nivel = obtenerNivelJuego(nombreJuego);
+  document.getElementById(elementoId).textContent = `Nivel: ${nivel}`;
 }
 
 // Verifica sesión activa con Firebase
@@ -136,7 +181,7 @@ function volverAlMenu() {
   document.getElementById("contenidoJuego").innerHTML = "";
   document.getElementById("contenidoJuego").classList.add("hidden");
   document.getElementById("contenidoAprender").classList.add("hidden");
-  document.getElementById("botonesAprender").classList.add("hidden");
+  document.getElementById("galeriaFlores").classList.add("hidden");
   document.getElementById("filtroMunicipios").classList.add("hidden");
   document.getElementById("botonesMunicipios").classList.add("hidden");
   const instrucciones = document.getElementById("instruccionesJuego");
@@ -147,19 +192,15 @@ function volverAlMenu() {
   intentosRestantes = null;
 }
 
-function actualizarUsuarioEnFirebase() {
-  firebase.database().ref("usuarios/" + usuario.nombre.toLowerCase().replace(/\s+/g, '')).update({
-    puntos: usuario.puntos,
-    nivel: usuario.nivel
-  });
-}
+
 
 // Mostrar sección aprender
 function mostrarAprender() {
-  document.getElementById("botonesAprender").classList.remove("hidden");
+  
   document.getElementById("filtroMunicipios").classList.remove("hidden");
   const cont = document.getElementById("contenidoAprender");
   const galeria = document.getElementById("galeriaFlores");
+  galeria.classList.remove("hidden");
   galeria.innerHTML = "";
 
   flores.forEach((flor, i) => {
@@ -173,13 +214,12 @@ function mostrarAprender() {
       <p class="toxicidad ${flor.toxica ? 'toxica' : 'no-toxica'}">
         ${flor.toxica ? '🚫 Tóxica' : '✅ No tóxica'}
       </p>
-      <div class="extra-info">
-        <p class="campo-usos hidden"><strong>Usos:</strong> ${flor.usos}</p>
-        <p class="campo-faunaAsociada hidden"><strong>Fauna asociada:</strong> ${flor.faunaAsociada}</p>
-        <p class="campo-ecosistema hidden"><strong>Ecosistema:</strong> ${flor.ecosistema}</p>
-        <p class="campo-conservacion hidden"><strong>Conservación:</strong> ${flor.conservacion}</p>
-        <p class="campo-curiosidad hidden"><strong>Dato curioso:</strong> ${flor.curiosidad}</p>
-      </div>
+      <p><strong>Usos:</strong> ${flor.usos}</p>
+      <p><strong>Fauna asociada:</strong> ${flor.faunaAsociada}</p>
+      <p><strong>Ecosistema:</strong> ${flor.ecosistema}</p>
+      <p><strong>Conservación:</strong> ${flor.conservacion}</p>
+      <p><strong>Dato curioso:</strong> ${flor.curiosidad}</p>
+     
     `;
     galeria.appendChild(plantaDiv);
   });
@@ -229,23 +269,24 @@ function iniciarMemorama() {
   instrucciones.innerHTML = `
     <h2>🧠 Memorama</h2>
     <p>Encuentra las plantas iguales</p>
-    <button id="btnVolverMenu">⬅️ Volver al menú</button>
   `;
   leerTexto("Encuentra las plantas iguales. Haz clic en las cartas para voltearlas y formar parejas.");
-
-  document.getElementById("btnVolverMenu").onclick = volverAlMenu;
   crearMemorama();
   actualizarIntentosEnPantalla();
 }
 
 // Crear memorama
+// Crear memorama - MODIFICADO
 function crearMemorama() {
+  const nombreJuego = "memorama"; // Nombre del juego
+  let nivelActual = obtenerNivelJuego(nombreJuego); // Obtener nivel del juego
   let pares, maxIntentos;
+
   if (nivelActual === 1) {
-    pares = 5;
+    pares = 6;
     maxIntentos = null;
   } else if (nivelActual === 2) {
-    pares = 10;
+    pares = 12;
     maxIntentos = 15;
   } else {
     pares = 18;
@@ -269,6 +310,7 @@ function crearMemorama() {
   contJuego.appendChild(grid);
 
   let seleccionadas = [], bloqueo = false, encontrados = 0;
+  let yaCompletoNiveles = false; // Nueva variable
 
   cartas.forEach(img => {
     const carta = document.createElement("div");
@@ -300,20 +342,22 @@ function crearMemorama() {
             setTimeout(() => {
               reproducirSonido("win");
               alert("🎉 ¡Nivel completado!");
-              usuario.puntos += 10;
-              actualizarUsuarioEnFirebase();
 
               if (nivelActual < 3) {
-                nivelActual++;
-                usuario.nivel = nivelActual;
-                actualizarUsuarioEnFirebase();
-                document.getElementById("puntos").textContent = usuario.puntos;
+                // Subir nivel del juego
+                subirNivelJuego(nombreJuego);
+                if (!yaCompletoNiveles) { // Sumar puntos solo si no ha completado todos los niveles antes
+                  usuario.puntos += 10;
+                  document.getElementById("puntos").textContent = usuario.puntos;
+                  actualizarUsuarioEnFirebase();
+                }
                 iniciarMemorama();
               } else {
-                nivelActual = 1;
-                usuario.nivel = 1;
-                document.getElementById("puntos").textContent = usuario.puntos;
+                // Reiniciar nivel del juego
+                actualizarNivelJuego(nombreJuego, 1);
+                yaCompletoNiveles = true; // Marcar que ya completó todos los niveles
                 mostrarFelicitacion();
+                iniciarMemorama(); // Iniciar desde el nivel 1
               }
             }, 500);
           }
@@ -364,21 +408,24 @@ function actualizarIntentosEnPantalla() {
   }
 }
 
-// Juego Une la foto con su nombre
+/// Juego Une la foto con su nombre - MODIFICADO
 function iniciarUneFotos() {
   aciertos = 0;
   const instrucciones = document.getElementById("instruccionesJuego");
   instrucciones.innerHTML = `
     <h2>🔗 Une la foto con su nombre</h2>
     <p>Arrastra la foto de la planta y suéltala en el recuadro con su nombre.</p>
-    <button id="btnVolverMenu">⬅️ Volver al menú</button>
   `;
   leerTexto("Arrastra la imagen de la planta hasta el nombre correcto. Une todas para completar el nivel.");
 
-  document.getElementById("btnVolverMenu").onclick = volverAlMenu;
-
   const cont = document.getElementById("contenidoJuego");
   cont.innerHTML = "";
+
+  const nombreJuego = "une-fotos"; // Nombre del juego
+  let nivelActual = obtenerNivelJuego(nombreJuego); // Obtener nivel del juego
+  
+  // Verificar si ya completó todos los niveles
+  const yaCompletoTodos = nivelesJuegos[nombreJuego + "_completado"] || false;
 
   let cantidad;
   if (nivelActual === 1) {
@@ -439,20 +486,35 @@ function iniciarUneFotos() {
           setTimeout(() => {
             reproducirSonido("win");
             alert("🎉 ¡Muy bien! Has completado el nivel.");
-            usuario.puntos += 5;
-            actualizarUsuarioEnFirebase();
-
+            
             if (nivelActual < 3) {
-              nivelActual++;
-              usuario.nivel = nivelActual;
-              actualizarUsuarioEnFirebase();
-              document.getElementById("puntos").textContent = usuario.puntos;
+              // Subir nivel del juego
+              subirNivelJuego(nombreJuego);
+              
+              // Solo sumar puntos si no ha completado todos los niveles antes
+              if (!yaCompletoTodos) {
+                usuario.puntos += 5;
+                document.getElementById("puntos").textContent = usuario.puntos;
+                actualizarUsuarioEnFirebase();
+              }
+              
               iniciarUneFotos();
             } else {
-              nivelActual = 1;
-              usuario.nivel = 1;
-              document.getElementById("puntos").textContent = usuario.puntos;
+              // Marcar que ya completó todos los niveles
+              nivelesJuegos[nombreJuego + "_completado"] = true;
+              
+              // Reiniciar nivel del juego
+              actualizarNivelJuego(nombreJuego, 1);
+              
+              // Solo sumar puntos si es la primera vez que completa todos los niveles
+              if (!yaCompletoTodos) {
+                usuario.puntos += 5;
+                document.getElementById("puntos").textContent = usuario.puntos;
+                actualizarUsuarioEnFirebase();
+              }
+              
               mostrarFelicitacion();
+              iniciarUneFotos(); // Reiniciar desde nivel 1
             }
           }, 300);
         }
@@ -566,13 +628,11 @@ function filtrarPorMunicipio(municipio) {
       <p class="toxicidad ${flor.toxica ? 'toxica' : 'no-toxica'}">
         ${flor.toxica ? '🚫 Tóxica' : '✅ No tóxica'}
       </p>
-      <div class="extra-info">
-        <p class="campo-usos hidden"><strong>Usos:</strong> ${flor.usos}</p>
-        <p class="campo-faunaAsociada hidden"><strong>Fauna asociada:</strong> ${flor.faunaAsociada}</p>
-        <p class="campo-ecosistema hidden"><strong>Ecosistema:</strong> ${flor.ecosistema}</p>
-        <p class="campo-conservacion hidden"><strong>Conservación:</strong> ${flor.conservacion}</p>
-        <p class="campo-curiosidad hidden"><strong>Dato curioso:</strong> ${flor.curiosidad}</p>
-      </div>
+      <p><strong>Usos:</strong> ${flor.usos}</p>
+      <p><strong>Fauna asociada:</strong> ${flor.faunaAsociada}</p>
+      <p><strong>Ecosistema:</strong> ${flor.ecosistema}</p>
+      <p><strong>Conservación:</strong> ${flor.conservacion}</p>
+      <p><strong>Dato curioso:</strong> ${flor.curiosidad}</p>
     `;
     galeria.appendChild(plantaDiv);
   });
@@ -601,13 +661,11 @@ function filtrarToxicas(valor) {
       <p class="toxicidad ${flor.toxica ? 'toxica' : 'no-toxica'}">
         ${flor.toxica ? '🚫 Tóxica' : '✅ No tóxica'}
       </p>
-      <div class="extra-info">
-        <p class="campo-usos hidden"><strong>Usos:</strong> ${flor.usos}</p>
-        <p class="campo-faunaAsociada hidden"><strong>Fauna asociada:</strong> ${flor.faunaAsociada}</p>
-        <p class="campo-ecosistema hidden"><strong>Ecosistema:</strong> ${flor.ecosistema}</p>
-        <p class="campo-conservacion hidden"><strong>Conservación:</strong> ${flor.conservacion}</p>
-        <p class="campo-curiosidad hidden"><strong>Dato curioso:</strong> ${flor.curiosidad}</p>
-      </div>
+      <p><strong>Usos:</strong> ${flor.usos}</p>
+      <p><strong>Fauna asociada:</strong> ${flor.faunaAsociada}</p>
+      <p><strong>Ecosistema:</strong> ${flor.ecosistema}</p>
+      <p><strong>Conservación:</strong> ${flor.conservacion}</p>
+      <p><strong>Dato curioso:</strong> ${flor.curiosidad}</p>
     `;
     galeria.appendChild(plantaDiv);
   });
@@ -705,12 +763,16 @@ function iniciarAdivinaPlanta() {
   instrucciones.innerHTML = `
     <h2>🌿 Adivina la planta</h2>
     <p>Observa la imagen y selecciona el nombre correcto</p>
-    <button id="btnVolverMenu">⬅️ Volver al menú</button>
   `;
-  document.getElementById("btnVolverMenu").onclick = volverAlMenu;
 
   const cont = document.getElementById("contenidoJuego");
   cont.innerHTML = "";
+
+  const nombreJuego = "adivina-planta"; // Nombre del juego
+  let nivelActual = obtenerNivelJuego(nombreJuego); // Obtener nivel del juego
+  
+  // Verificar si ya completó todos los niveles
+  const yaCompletoTodos = nivelesJuegos[nombreJuego + "_completado"] || false;
 
   let cantidad;
   if (nivelActual === 1) {
@@ -755,20 +817,35 @@ function iniciarAdivinaPlanta() {
 
           if (aciertos >= cantidad) {
             alert("🎉 ¡Nivel completado!");
-            usuario.puntos += 5;
-            actualizarUsuarioEnFirebase();
-
+            
             if (nivelActual < 3) {
-              nivelActual++;
-              usuario.nivel = nivelActual;
-              actualizarUsuarioEnFirebase();
-              document.getElementById("puntos").textContent = usuario.puntos;
+              // Subir nivel del juego
+              subirNivelJuego(nombreJuego);
+              
+              // Solo sumar puntos si no ha completado todos los niveles antes
+              if (!yaCompletoTodos) {
+                usuario.puntos += 5;
+                document.getElementById("puntos").textContent = usuario.puntos;
+                actualizarUsuarioEnFirebase();
+              }
+              
               iniciarAdivinaPlanta();
             } else {
-              nivelActual = 1;
-              usuario.nivel = 1;
-              document.getElementById("puntos").textContent = usuario.puntos;
+              // Marcar que ya completó todos los niveles
+              nivelesJuegos[nombreJuego + "_completado"] = true;
+              
+              // Reiniciar nivel del juego
+              actualizarNivelJuego(nombreJuego, 1);
+              
+              // Solo sumar puntos si es la primera vez que completa todos los niveles
+              if (!yaCompletoTodos) {
+                usuario.puntos += 5;
+                document.getElementById("puntos").textContent = usuario.puntos;
+                actualizarUsuarioEnFirebase();
+              }
+              
               mostrarFelicitacion();
+              iniciarAdivinaPlanta(); // Reiniciar desde nivel 1
             }
           } else {
             mostrarPregunta();
@@ -787,17 +864,22 @@ function iniciarAdivinaPlanta() {
 
   mostrarPregunta();
 }
+
 function iniciarTrivia() {
   const instrucciones = document.getElementById("instruccionesJuego");
   instrucciones.innerHTML = `
     <h2>❓ Trivia rápida</h2>
     <p>Responde correctamente las preguntas para subir de nivel</p>
-    <button id="btnVolverMenu">⬅️ Volver al menú</button>
   `;
-  document.getElementById("btnVolverMenu").onclick = volverAlMenu;
 
   const cont = document.getElementById("contenidoJuego");
   cont.innerHTML = "";
+
+  const nombreJuego = "trivia"; // Nombre del juego
+  let nivelActual = obtenerNivelJuego(nombreJuego); // Obtener nivel del juego
+  
+  // Verificar si ya completó todos los niveles
+  const yaCompletoTodos = nivelesJuegos[nombreJuego + "_completado"] || false;
 
   let cantidad;
   if (nivelActual === 1) cantidad = 5;
@@ -840,20 +922,35 @@ function iniciarTrivia() {
 
     if (index >= preguntas.length) {
       alert("🎉 ¡Nivel completado!");
-      usuario.puntos += 5;
-      actualizarUsuarioEnFirebase();
-
+      
       if (nivelActual < 3) {
-        nivelActual++;
-        usuario.nivel = nivelActual;
-        actualizarUsuarioEnFirebase();
-        document.getElementById("puntos").textContent = usuario.puntos;
+        // Subir nivel del juego
+        subirNivelJuego(nombreJuego);
+        
+        // Solo sumar puntos si no ha completado todos los niveles antes
+        if (!yaCompletoTodos) {
+          usuario.puntos += 5;
+          document.getElementById("puntos").textContent = usuario.puntos;
+          actualizarUsuarioEnFirebase();
+        }
+        
         iniciarTrivia();
       } else {
-        nivelActual = 1;
-        usuario.nivel = 1;
-        document.getElementById("puntos").textContent = usuario.puntos;
+        // Marcar que ya completó todos los niveles
+        nivelesJuegos[nombreJuego + "_completado"] = true;
+        
+        // Reiniciar nivel del juego
+        actualizarNivelJuego(nombreJuego, 1);
+        
+        // Solo sumar puntos si es la primera vez que completa todos los niveles
+        if (!yaCompletoTodos) {
+          usuario.puntos += 5;
+          document.getElementById("puntos").textContent = usuario.puntos;
+          actualizarUsuarioEnFirebase();
+        }
+        
         mostrarFelicitacion();
+        iniciarTrivia(); // Reiniciar desde nivel 1
       }
       return;
     }
@@ -891,14 +988,24 @@ function iniciarClasificaToxicidad() {
   instrucciones.innerHTML = `
     <h2>🚥 Clasifica por toxicidad</h2>
     <p>Arrastra cada planta a la categoría correcta</p>
-    <button id="btnVolverMenu">⬅️ Volver al menú</button>
   `;
-  document.getElementById("btnVolverMenu").onclick = volverAlMenu;
 
   const cont = document.getElementById("contenidoJuego");
   cont.innerHTML = "";
 
-  const seleccionadas = flores.slice().sort(() => 0.5 - Math.random()).slice(0, 8);
+  const nombreJuego = "clasifica-toxicidad"; // Nombre del juego
+  let nivelActual = obtenerNivelJuego(nombreJuego); // Obtener nivel del juego
+  
+  // Verificar si ya completó todos los niveles
+  const yaCompletoTodos = nivelesJuegos[nombreJuego + "_completado"] || false;
+
+  // Cantidad de plantas según el nivel
+  let cantidad;
+  if (nivelActual === 1) cantidad = 6;
+  else if (nivelActual === 2) cantidad = 8;
+  else cantidad = 10;
+
+  const seleccionadas = flores.slice().sort(() => 0.5 - Math.random()).slice(0, cantidad);
   let correctas = 0;
   let total = seleccionadas.length;
   let errores = [];
@@ -947,10 +1054,15 @@ function iniciarClasificaToxicidad() {
 
       if (esCorrecto) {
         reproducirSonido("win");
-        usuario.puntos += 1;
+        
+        // Solo sumar puntos si no ha completado todos los niveles antes
+        if (!yaCompletoTodos) {
+          usuario.puntos += 1;
+          document.getElementById("puntos").textContent = usuario.puntos;
+          actualizarUsuarioEnFirebase();
+        }
+        
         correctas++;
-        document.getElementById("puntos").textContent = usuario.puntos;
-        actualizarUsuarioEnFirebase();
       } else {
         reproducirSonido("lose");
         planta.clasificacionIncorrecta = tipo;
@@ -975,7 +1087,31 @@ function iniciarClasificaToxicidad() {
           }
 
           alert(mensaje);
-          mostrarFelicitacion();
+
+          // Verificar si debe avanzar de nivel
+          const porcentajeAciertos = (correctas / total) * 100;
+          
+          if (porcentajeAciertos >= 70) { // 70% de aciertos para pasar de nivel
+            if (nivelActual < 3) {
+              // Subir nivel del juego
+              subirNivelJuego(nombreJuego);
+              alert(`🎉 ¡Nivel completado! Avanzas al nivel ${nivelActual + 1}`);
+              iniciarClasificaToxicidad();
+            } else {
+              // Marcar que ya completó todos los niveles
+              nivelesJuegos[nombreJuego + "_completado"] = true;
+              
+              // Reiniciar nivel del juego
+              actualizarNivelJuego(nombreJuego, 1);
+              
+              alert("🏆 ¡Has completado todos los niveles! El juego se reinicia.");
+              mostrarFelicitacion();
+              iniciarClasificaToxicidad(); // Reiniciar desde nivel 1
+            }
+          } else {
+            alert(`📚 Necesitas al menos 70% de aciertos para avanzar. ¡Inténtalo de nuevo!`);
+            iniciarClasificaToxicidad(); // Repetir el mismo nivel
+          }
         }, 300);
       }
     };
@@ -1018,12 +1154,16 @@ function iniciarVerdaderoFalso() {
   instrucciones.innerHTML = `
     <h2>✅❌ Verdadero o falso</h2>
     <p>Lee la afirmación y elige la opción correcta</p>
-    <button id="btnVolverMenu">⬅️ Volver al menú</button>
   `;
-  document.getElementById("btnVolverMenu").onclick = volverAlMenu;
 
   const cont = document.getElementById("contenidoJuego");
   cont.innerHTML = "";
+
+  const nombreJuego = "verdadero-falso"; // Nombre del juego
+  let nivelActual = obtenerNivelJuego(nombreJuego); // Obtener nivel del juego
+  
+  // Verificar si ya completó todos los niveles
+  const yaCompletoTodos = nivelesJuegos[nombreJuego + "_completado"] || false;
 
   let cantidad;
   if (nivelActual === 1) cantidad = 5;
@@ -1063,17 +1203,35 @@ function iniciarVerdaderoFalso() {
   function mostrarPregunta(index) {
     if (index >= preguntas.length) {
       alert(`🎉 Nivel completado con ${aciertos} aciertos de ${cantidad}`);
-      usuario.puntos += aciertos;
-      actualizarUsuarioEnFirebase();
+      
       if (nivelActual < 3) {
-        nivelActual++;
-        usuario.nivel = nivelActual;
-        actualizarUsuarioEnFirebase();
+        // Subir nivel del juego
+        subirNivelJuego(nombreJuego);
+        
+        // Solo sumar puntos si no ha completado todos los niveles antes
+        if (!yaCompletoTodos) {
+          usuario.puntos += aciertos;
+          document.getElementById("puntos").textContent = usuario.puntos;
+          actualizarUsuarioEnFirebase();
+        }
+        
         iniciarVerdaderoFalso();
       } else {
-        nivelActual = 1;
-        usuario.nivel = 1;
+        // Marcar que ya completó todos los niveles
+        nivelesJuegos[nombreJuego + "_completado"] = true;
+        
+        // Reiniciar nivel del juego
+        actualizarNivelJuego(nombreJuego, 1);
+        
+        // Solo sumar puntos si es la primera vez que completa todos los niveles
+        if (!yaCompletoTodos) {
+          usuario.puntos += aciertos;
+          document.getElementById("puntos").textContent = usuario.puntos;
+          actualizarUsuarioEnFirebase();
+        }
+        
         mostrarFelicitacion();
+        iniciarVerdaderoFalso(); // Reiniciar desde nivel 1
       }
       return;
     }
