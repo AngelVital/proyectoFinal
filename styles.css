@@ -7,7 +7,7 @@ body {
   font-family: 'Comic Sans MS', cursive, sans-serif;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: center; /* This centers the main content sections */
 }
 
 .hidden {
@@ -22,6 +22,7 @@ body {
 
 /* Botones generales */
 button {
+  /* Keep your general button styling, but adjust margin for flexbox compatibility */
   background-color: #ffb703;
   color: #fff;
   border: none;
@@ -30,8 +31,15 @@ button {
   font-weight: bold;
   border-radius: 10px;
   cursor: pointer;
-  margin: 8px 0;
+  /* REMOVE or adjust this margin. For buttons inside flex containers, `gap` is preferred. */
+  /* margin: 8px 0; */ /* You can keep this for standalone buttons, but it will interfere with flex `gap` */
   transition: background-color 0.3s, transform 0.2s;
+
+  /* Ensure button content is centered if it contains icons/text */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center; /* Center content horizontally within the button */
+  gap: 0.5em; /* Space between icon and text inside button */
 }
 
 button:hover {
@@ -275,81 +283,81 @@ button:active {
 }
 
 .ayuda-flotante {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    z-index: 1000;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-  }
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
 
-  #ayudaFija {
-    font-size: 1rem;
-    color: #1d3557;
-    font-weight: bold;
-    cursor: pointer;
-    text-decoration: underline;
-    background: #fffbe6;
-    border: 2px solid #ffb703;
-    border-radius: 10px;
-    padding: 10px 18px;
-    box-shadow: 0 2px 8px rgba(255,183,3,0.10);
-    transition: background 0.2s, border-color 0.2s;
-  }
+#ayudaFija {
+  font-size: 1rem;
+  color: #1d3557;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: underline;
+  background: #fffbe6;
+  border: 2px solid #ffb703;
+  border-radius: 10px;
+  padding: 10px 18px;
+  box-shadow: 0 2px 8px rgba(255,183,3,0.10);
+  transition: background 0.2s, border-color 0.2s;
+}
 
-  #ayudaFija:hover {
-    background: #ffe5b4;
-    border-color: #fb8500;
-    color: #fb8500;
-  }
+#ayudaFija:hover {
+  background: #ffe5b4;
+  border-color: #fb8500;
+  color: #fb8500;
+}
 
-  .popup-ayuda {
-    display: none;
-    position: absolute;
-    bottom: 48px;
-    right: 0;
-    min-width: 260px;
-    max-width: 320px;
-    background: #fffbe6;
-    color: #333;
-    border: 2px solid #ffb703;
-    border-radius: 14px;
-    box-shadow: 0 4px 16px rgba(251, 133, 0, 0.18);
-    padding: 18px 20px 14px 20px;
-    font-size: 1rem;
-    line-height: 1.5;
-    z-index: 1001;
-    animation: fadeIn 0.3s;
-  }
+.popup-ayuda {
+  display: none;
+  position: absolute;
+  bottom: 48px;
+  right: 0;
+  min-width: 260px;
+  max-width: 320px;
+  background: #fffbe6;
+  color: #333;
+  border: 2px solid #ffb703;
+  border-radius: 14px;
+  box-shadow: 0 4px 16px rgba(251, 133, 0, 0.18);
+  padding: 18px 20px 14px 20px;
+  font-size: 1rem;
+  line-height: 1.5;
+  z-index: 1001;
+  animation: fadeIn 0.3s;
+}
 
-  .popup-ayuda.visible {
-    display: block;
-  }
+.popup-ayuda.visible {
+  display: block;
+}
 
-  .cerrar-ayuda {
-    position: absolute;
-    top: 8px;
-    right: 10px;
-    background: none;
-    border: none;
-    font-size: 1.4rem;
-    color: #fb8500;
-    cursor: pointer;
-    font-weight: bold;
-    transition: color 0.2s;
-  }
+.cerrar-ayuda {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  color: #fb8500;
+  cursor: pointer;
+  font-weight: bold;
+  transition: color 0.2s;
+}
 
-  .cerrar-ayuda:hover {
-    color: #d00000;
-  }
+.cerrar-ayuda:hover {
+  color: #d00000;
+}
 
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px);}
-    to { opacity: 1; transform: translateY(0);}
-  }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px);}
+  to { opacity: 1; transform: translateY(0);}
+}
 
-  .usuarios-popup-contenedor {
+.usuarios-popup-contenedor {
   position: relative;
   display: inline-block;
 }
@@ -458,22 +466,22 @@ button:active {
     padding: 10px;
   }
 
+  /* Consider if this button max-width is still needed if buttons are within flex containers */
   button {
-    max-width: 100%;
+    max-width: 100%; /* Keep this if you want buttons to stretch to 100% width on small screens when alone */
   }
 
   .hidden {
     display: none;
   }
 
+  /* Style for the "Usos", "Fauna asociada", etc. buttons */
   .botones-aprender {
     margin-bottom: 1rem;
     display: flex;
     flex-wrap: wrap;
-    /* Use gap for consistent spacing between buttons */
     gap: 0.5rem; /* This controls the space between buttons */
-    /* Optional: Center the buttons if they don't fill the whole line */
-    justify-content: center;
+    justify-content: center; /* Center the buttons within their group */
   }
 
   .botones-aprender button {
@@ -486,7 +494,7 @@ button:active {
     font-weight: bold;
     box-shadow: 0 2px 8px rgba(255, 183, 3, 0.10);
     cursor: pointer;
-    /* REMOVE OR COMMENT OUT THIS LINE:
+    /* REMOVE THIS LINE:
     margin: 0.3rem 0.5rem 0.7rem 0; */
     transition:
       background 0.2s,
@@ -516,15 +524,48 @@ button:active {
     color: #b36b00;
     transform: scale(0.98);
   }
+
+  /* NEW STYLE FOR THE "Tóxicas", "No tóxicas", "Mostrar todas" buttons */
+  .botones-filtros-toxicidad {
+    margin-top: 1rem; /* Adjust spacing from the previous row */
+    margin-bottom: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem; /* Consistent spacing */
+    justify-content: center; /* Center these buttons too */
+  }
+
+  .botones-filtros-toxicidad button {
+    /* You can apply general button styles, or specific overrides if needed */
+    /* Example: Slightly different styling for these if desired */
+    padding: 0.7rem 1.5rem;
+    background: linear-gradient(90deg, #fffbe6 0%, #ffb703 100%);
+    color: #333;
+    border: 2px solid #ffb703;
+    border-radius: 16px;
+    font-size: 1.08rem;
+    font-weight: bold;
+    box-shadow: 0 2px 8px rgba(255, 183, 3, 0.10);
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s, color 0.2s, box-shadow 0.2s, transform 0.15s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    letter-spacing: 0.5px;
+  }
+
+
   .filtro-municipios {
     margin-bottom: 1rem;
   }
 
   .botones-municipios {
     margin-top: 0.5rem;
+    margin-bottom: 1rem; /* Add margin-bottom for consistent spacing */
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
+    justify-content: center; /* Center the "Municipios" button */
   }
 
   .botones-municipios.hidden {
@@ -562,7 +603,7 @@ button:active {
   }
 }
 
-  #contenidoJuego .planta {
+#contenidoJuego .planta {
   max-width: 300px;
   margin: auto;
   background: #fff5e1;
@@ -577,16 +618,8 @@ button:active {
   margin-bottom: 10px;
 }
 
-  
 .zona-drop h3 {
   margin-bottom: 10px;
   font-size: 1.2rem;
   color: #333;
 }
-
-}
-
-
-
-
-
